@@ -17,10 +17,14 @@ export class ReportService {
    * Envía una solicitud al motor de IA en n8n para generar un reporte basado en lenguaje natural.
    */
   generateAiReport(chatInput: string, sessionId: string) {
+    const normalizedPrompt = /excel/i.test(chatInput)
+      ? chatInput
+      : `${chatInput}\n\nDevuelve el resultado en formato excel.`;
+
     return this.http.post(environment.aiReportUrl, {
       action: 'sendMessage',
       sessionId,
-      chatInput
+      chatInput: normalizedPrompt
     }, { 
       responseType: 'blob',
       headers: {
