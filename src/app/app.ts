@@ -27,7 +27,6 @@ export class App implements OnInit {
   }
 
   ngOnInit() {
-    this.authStore.init();
     this.pushService.listenForMessages();
 
     if (this.authStore.isAuthenticated()) {

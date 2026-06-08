@@ -1,4 +1,4 @@
-import { ApplicationConfig, LOCALE_ID, provideBrowserGlobalErrorListeners } from '@angular/core';
+import { ApplicationConfig, LOCALE_ID, provideAppInitializer, provideBrowserGlobalErrorListeners, inject } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { registerLocaleData } from '@angular/common';
 import localeEsBo from '@angular/common/locales/es-BO';
@@ -13,12 +13,16 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { provideAngularQuery, QueryClient } from '@tanstack/angular-query-experimental';
 import { importProvidersFrom } from '@angular/core';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { AuthStore } from '@features/identity/auth/state/auth.store';
 
 registerLocaleData(localeEsBo);
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
+    provideAppInitializer(() => {
+      inject(AuthStore).init();
+    }),
     provideRouter(routes), 
     provideClientHydration(withEventReplay()),
     provideHttpClient(

@@ -55,6 +55,8 @@ export class LoginComponent {
   }));
 
   constructor() {
+    this.authStore.init();
+
     if (this.authStore.isAuthenticated()) {
       this.router.navigate(['/identity/home']);
     }

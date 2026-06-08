@@ -34,8 +34,8 @@ import { toSignal } from '@angular/core/rxjs-interop';
 
       <!-- Contenido principal -->
       <mat-sidenav-content class="layout-content">
-        <app-header 
-          [showMenuButton]="isMobile()" 
+        <app-header
+          [showMenuButton]="isMobile()"
           (menuToggled)="sidenavOpened.update(o => !o)">
         </app-header>
         <main class="main-content">
@@ -117,6 +117,8 @@ export class DashboardLayoutComponent {
   sidenavOpened = signal(false);
 
   constructor() {
+    this.authStore.init();
+
     // Guard inline: redirige si no hay sesión autenticada
     if (!this.authStore.isAuthenticated()) {
       this.router.navigate(['/identity/auth']);
