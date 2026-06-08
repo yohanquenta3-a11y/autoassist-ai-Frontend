@@ -45,9 +45,12 @@ Thumbs.db
 
 # Secrets and Credentials
 .env
+*.env
 .env.*
 environment.local.ts
 firebase-key.json
+/src/assets/env.js
+/src/firebase-messaging-sw.js
 *-firebase-adminsdk-*.json
 src/assets/env.js
 src/firebase-messaging-sw.js
