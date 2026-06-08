@@ -1,7 +1,7 @@
 {
   "/api": {
-    "target": "http://localhost:8000",
-    "secure": false,
+    "target": "https://autoassist-ai-backend-1.onrender.com",
+    "secure": true,
     "changeOrigin": true,
     "logLevel": "debug"
   },

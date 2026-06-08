@@ -1,6 +1,6 @@
 (function (global) {
   global.__env = {
-    apiUrl: "",
+    apiUrl: "https://autoassist-ai-backend-1.onrender.com/api/v1",
     aiReportUrl: "",
     firebase: {
       apiKey: "",
