@@ -309,6 +309,7 @@ export class SidebarComponent {
     label: 'Administración de la Plataforma',
     icon: Building2,
     children: [
+      { label: 'Gestionar tenants y aislamiento', path: '/admin/tenants' },
       { label: 'Gestionar talleres registrados', path: '/monitoring/workshops' },
       { label: 'Supervisar operaciones de la plataforma', path: '/monitoring/command-center' },
       { label: 'Consultar bitácora / historial del sistema', path: '/monitoring/audit' },

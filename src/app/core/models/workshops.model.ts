@@ -130,6 +130,7 @@ export interface SucursalResponse {
   id_taller: string;
   nombre: string;
   telefono?: string;
+  email?: string | null;
   direccion: string;
   latitud?: number;
   longitud?: number;

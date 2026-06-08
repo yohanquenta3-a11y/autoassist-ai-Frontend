@@ -16,6 +16,15 @@ export const adminRoutes: Routes = [
     loadComponent: loadDashboardLayoutComponent,
     children: [
       {
+        path: '',
+        redirectTo: 'tenants',
+        pathMatch: 'full'
+      },
+      {
+        path: 'tenants',
+        loadComponent: () => import('./pages/tenant-isolation/tenant-isolation.page').then(m => m.TenantIsolationPage)
+      },
+      {
         path: 'users',
         data: {
           placeholder: {
