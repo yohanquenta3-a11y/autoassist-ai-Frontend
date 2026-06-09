@@ -300,13 +300,13 @@ import { environment } from '@env/environment';
   `,
   styles: [`
     .page-container { 
-      padding: 2rem; 
-      max-width: 1400px; 
+      padding: 0.25rem 0 1rem; 
+      max-width: 1440px; 
       margin: 0 auto; 
       animation: fadeIn 0.4s ease-out;
       display: flex;
       flex-direction: column;
-      gap: 1.5rem;
+      gap: 1.25rem;
     }
 
     /* Page Header Prefix and Actions customization */
@@ -375,8 +375,11 @@ import { environment } from '@env/environment';
       gap: 1.25rem;
       padding: 1.25rem 1.5rem;
       border-radius: 16px;
-      background: rgba(255, 255, 255, 0.02) !important;
-      border: 1px solid rgba(255, 255, 255, 0.05) !important;
+      background:
+        radial-gradient(circle at 100% 0%, rgb(var(--sm-rgb-orange-500) / 0.12), transparent 24%),
+        linear-gradient(180deg, rgb(var(--sm-rgb-white) / 0.02), rgb(var(--sm-rgb-white) / 0.01)),
+        var(--sm-color-gunmetal-900) !important;
+      border: 1px solid rgb(var(--sm-rgb-orange-500) / 0.14) !important;
       
       .profile-avatar {
         width: 52px;
@@ -454,7 +457,7 @@ import { environment } from '@env/environment';
     .settings-grid { 
       display: grid; 
       grid-template-columns: 1fr 1.1fr; 
-      gap: 1.5rem; 
+      gap: 1.25rem; 
       align-items: start;
     }
     
@@ -748,9 +751,9 @@ import { environment } from '@env/environment';
       position: relative;
       border-radius: 12px;
       overflow: hidden;
-      border: 1px solid rgba(255, 255, 255, 0.06);
+      border: 1px solid rgb(var(--sm-rgb-orange-500) / 0.12);
       box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
-      background: #0f172a;
+      background: #0b1019;
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       z-index: 1;
       
@@ -856,8 +859,10 @@ import { environment } from '@env/environment';
       align-items: center;
       padding: 1.25rem 2rem;
       border-radius: 16px;
-      background: rgba(255, 255, 255, 0.02) !important;
-      border: 1px solid rgba(255, 255, 255, 0.05) !important;
+      background:
+        linear-gradient(180deg, rgb(var(--sm-rgb-white) / 0.02), rgb(var(--sm-rgb-white) / 0.01)),
+        var(--sm-color-gunmetal-900) !important;
+      border: 1px solid rgb(var(--sm-rgb-orange-500) / 0.12) !important;
       margin-top: 0.5rem;
       
       .btn-cancel-form {
@@ -880,7 +885,7 @@ import { environment } from '@env/environment';
         border-radius: 20px !important;
         font-weight: 600 !important;
         font-size: 0.8rem !important;
-        background: linear-gradient(135deg, var(--sm-color-sapphire-600), var(--sm-color-sapphire-700)) !important;
+        background: linear-gradient(135deg, var(--sm-color-orange-500), var(--sm-color-orange-600)) !important;
         color: white !important;
         height: 40px !important;
         padding: 0 1.75rem !important;
@@ -892,8 +897,8 @@ import { environment } from '@env/environment';
         transition: all 0.2s ease;
         
         &:hover:not(:disabled) {
-          background: linear-gradient(135deg, var(--sm-color-sapphire-500), var(--sm-color-sapphire-600)) !important;
-          box-shadow: 0 4px 20px rgba(59, 130, 246, 0.3);
+          background: linear-gradient(135deg, var(--sm-color-orange-400), var(--sm-color-orange-500)) !important;
+          box-shadow: 0 4px 20px rgb(var(--sm-rgb-orange-500) / 0.25);
         }
         &:disabled {
           background: rgba(255, 255, 255, 0.03) !important;

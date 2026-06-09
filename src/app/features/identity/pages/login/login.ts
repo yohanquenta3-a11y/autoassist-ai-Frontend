@@ -11,8 +11,8 @@ import { UserLogin } from '@core/models/identity.model';
     <div class="login-container">
       <div class="login-card">
         <div class="login-header">
-          <h1>Smart Mechanic</h1>
-          <p>Panel Administrativo</p>
+          <h1>AutoAssist AI</h1>
+          <p>Centro administrativo y operativo</p>
         </div>
         <app-login-form (submitLogin)="onLoginSubmit($event)"></app-login-form>
       </div>
@@ -57,7 +57,7 @@ export class Login {
   // TODO: Inject AuthStore/AuthService here
 
   onLoginSubmit(credentials: UserLogin) {
-    console.log('Login Submit en Smart Component:', credentials);
+    console.log('Login Submit en AutoAssist AI:', credentials);
     // TODO: Ejecutar mutación con TanStack Query o HttpClient para POST /api/v1/identity/auth/login
   }
 }

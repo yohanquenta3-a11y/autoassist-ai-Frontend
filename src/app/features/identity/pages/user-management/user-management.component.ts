@@ -63,6 +63,21 @@ import { StorageService } from '@core/services/storage.service';
         </div>
       </app-page-header>
 
+      <section class="hero-banner sm-surface-panel">
+        <div class="hero-copy">
+          <span class="sm-section-kicker">AutoAssist AI</span>
+          <h2>Controla accesos, sucursales y responsables desde una sola vista.</h2>
+          <p>El rediseño concentra identidad, estado operativo y contexto de sucursal con una lectura más clara, sin alterar permisos ni flujos actuales.</p>
+        </div>
+        <div class="hero-badges">
+          <span class="sm-pill">Identidad activa</span>
+          <span class="sm-pill">Roles protegidos</span>
+          @if (isOwner()) {
+            <span class="sm-pill">Contexto por sucursal</span>
+          }
+        </div>
+      </section>
+
       <!-- Tarjetas de Estadísticas Reutilizadas (Detalle de Imagen 2) -->
       <div class="stats-grid">
         <app-stat-card 
@@ -342,21 +357,76 @@ import { StorageService } from '@core/services/storage.service';
     </div>
   `,
   styles: [`
-    .page-container { padding: 2rem; max-width: 1400px; margin: 0 auto; animation: fadeIn 0.4s ease-out; }
+    .page-container {
+      padding: 0.25rem 0 1rem;
+      max-width: 1440px;
+      margin: 0 auto;
+      animation: fadeIn 0.4s ease-out;
+    }
+
+    .hero-banner {
+      padding: 1.25rem 1.35rem;
+      border-radius: 1.5rem;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 1.15rem;
+    }
+
+    .hero-copy {
+      display: flex;
+      flex-direction: column;
+      gap: 0.55rem;
+      max-width: 54rem;
+    }
+
+    .hero-copy h2 {
+      margin: 0;
+      color: var(--sm-color-text-title);
+      font-size: clamp(1.2rem, 2vw, 1.7rem);
+      line-height: 1.1;
+    }
+
+    .hero-copy p {
+      margin: 0;
+      color: var(--sm-color-text-soft);
+      max-width: 46rem;
+      line-height: 1.5;
+      font-size: 0.92rem;
+    }
+
+    .hero-badges {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      gap: 0.55rem;
+      min-width: 12rem;
+    }
  
     /* Estadísticas Reutilizadas */
     .stats-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 1.25rem;
-      margin-bottom: 2rem;
+      gap: 1rem;
+      margin-bottom: 1.25rem;
     }
 
     /* Barra de Filtros Premium */
-    .filters-container {
-      padding: 1.25rem 1.5rem; margin-bottom: 1.5rem; display: flex; justify-content: space-between; align-items: center; gap: 1.5rem;
-      .filter-group { display: flex; align-items: center; gap: 1rem; flex: 1; }
-    }
+      .filters-container {
+        padding: 1.15rem 1.25rem;
+        margin-bottom: 1.25rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      gap: 1.25rem;
+      border-radius: 1.2rem;
+        border: 1px solid rgb(var(--sm-rgb-copper-500) / 0.14);
+        background:
+        radial-gradient(circle at 0% 0%, rgb(var(--sm-rgb-copper-500) / 0.12), transparent 24%),
+        linear-gradient(145deg, rgb(var(--sm-rgb-black) / 0.2), var(--sm-color-gunmetal-900));
+        .filter-group { display: flex; align-items: center; gap: 1rem; flex: 1; }
+      }
  
     .search-field-mat { flex: 1; max-width: 500px; }
  
@@ -365,15 +435,26 @@ import { StorageService } from '@core/services/storage.service';
     .filter-actions { display: flex; align-items: center; gap: 0.5rem; }
  
     /* Tabla Premium */
-    .table-card { border-radius: 16px; overflow: hidden; padding: 0; }
+    .table-card {
+      border-radius: 1.25rem;
+      overflow: hidden;
+      padding: 0;
+      border: 1px solid rgb(var(--sm-rgb-copper-500) / 0.14);
+      background:
+        linear-gradient(180deg, rgb(var(--sm-rgb-white) / 0.02), rgb(var(--sm-rgb-white) / 0.01)),
+        var(--sm-color-gunmetal-900);
+      box-shadow: 0 24px 60px -40px rgb(var(--sm-rgb-black) / 0.96);
+    }
     .table-header { 
       padding: 1.25rem 1.5rem; 
-      border-bottom: 1px solid rgba(255,255,255,0.05);
-      background: rgba(255,255,255,0.01);
+      border-bottom: 1px solid rgb(var(--sm-rgb-copper-500) / 0.08);
+      background:
+        radial-gradient(circle at 100% 0%, rgb(var(--sm-rgb-copper-500) / 0.08), transparent 22%),
+        rgb(var(--sm-rgb-white) / 0.01);
       .table-info { display: flex; align-items: center; gap: 0.75rem; color: var(--sm-color-text-title); font-weight: 700; font-size: 0.85rem; }
       .count-badge { 
         margin-left: auto; 
-        background: var(--sm-color-sapphire-500); 
+        background: linear-gradient(145deg, var(--sm-color-orange-500), var(--sm-color-orange-600)); 
         color: white; 
         padding: 0.15rem 0.5rem; 
         border-radius: 12px; 
@@ -391,10 +472,10 @@ import { StorageService } from '@core/services/storage.service';
  
     .modern-table {
       width: 100%; background: transparent; min-width: 800px;
-      th { color: var(--sm-color-text-muted); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em; padding: 0.8rem 1.5rem; border-bottom: 1px solid rgba(255,255,255,0.05); }
-      td { padding: 1rem 1.5rem; border-bottom: 1px solid rgba(255,255,255,0.02); }
+      th { color: var(--sm-color-text-muted); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em; padding: 0.9rem 1.5rem; border-bottom: 1px solid rgb(var(--sm-rgb-orange-500) / 0.08); }
+      td { padding: 1rem 1.5rem; border-bottom: 1px solid rgb(var(--sm-rgb-orange-500) / 0.04); }
     }
-    .table-row:hover td { background: rgba(var(--sm-rgb-sapphire-500), 0.05); transition: background 0.15s; }
+      .table-row:hover td { background: rgb(var(--sm-rgb-copper-500) / 0.05); transition: background 0.15s; }
  
     .user-profile-cell {
       display: flex; align-items: center; gap: 1rem;
@@ -465,8 +546,8 @@ import { StorageService } from '@core/services/storage.service';
         min-width: 32px;
         padding: 0;
         border-radius: 8px;
-        background: rgba(255, 255, 255, 0.02);
-        border: 1px solid rgba(255, 255, 255, 0.05);
+        background: rgb(var(--sm-rgb-black) / 0.14);
+        border: 1px solid rgb(var(--sm-rgb-orange-500) / 0.12);
         color: var(--sm-color-text-muted);
         transition: all 0.2s ease;
         display: inline-flex;
@@ -482,15 +563,15 @@ import { StorageService } from '@core/services/storage.service';
         
         &:hover {
           color: white;
-          background: rgba(255, 255, 255, 0.08);
-          border-color: rgba(255, 255, 255, 0.1);
+          background: rgb(var(--sm-rgb-orange-500) / 0.12);
+          border-color: rgb(var(--sm-rgb-orange-500) / 0.18);
         }
       }
       
       .edit-btn:hover {
-        background: rgba(99, 102, 241, 0.1);
-        color: #818cf8;
-        border-color: rgba(99, 102, 241, 0.2);
+        background: rgb(var(--sm-rgb-orange-500) / 0.16);
+        color: var(--sm-color-orange-100);
+        border-color: rgb(var(--sm-rgb-orange-500) / 0.22);
       }
       .toggle-off:hover {
         background: rgba(231, 76, 60, 0.1);
@@ -517,22 +598,22 @@ import { StorageService } from '@core/services/storage.service';
         min-height: 38px !important;
       }
       ::ng-deep .mat-mdc-text-field-wrapper {
-        background: rgba(30, 64, 175, 0.15) !important;
-        border: 1px solid rgba(59, 130, 246, 0.4) !important;
-        border-radius: 10px !important;
+        background: rgb(var(--sm-rgb-white) / 0.03) !important;
+        border: 1px solid rgb(var(--sm-rgb-orange-500) / 0.18) !important;
+        border-radius: 999px !important;
         height: 38px !important;
         transition: all 0.3s ease;
       }
       ::ng-deep .mat-mdc-text-field-wrapper:hover {
-        background: rgba(30, 64, 175, 0.25) !important;
-        border-color: rgba(59, 130, 246, 0.7) !important;
+        background: rgb(var(--sm-rgb-orange-500) / 0.08) !important;
+        border-color: rgb(var(--sm-rgb-orange-500) / 0.28) !important;
       }
       ::ng-deep .mat-mdc-select-value {
-        color: #93c5fd !important;
+        color: var(--sm-color-text-main) !important;
         font-weight: 700;
       }
       ::ng-deep .mat-mdc-select-arrow {
-        color: #60a5fa !important;
+        color: var(--sm-color-orange-200) !important;
       }
     }
 
@@ -540,9 +621,9 @@ import { StorageService } from '@core/services/storage.service';
       display: inline-flex;
       align-items: center;
       gap: 0.35rem;
-      background: rgba(59, 130, 246, 0.1);
-      border: 1px solid rgba(59, 130, 246, 0.25);
-      color: #60a5fa;
+      background: rgb(var(--sm-rgb-orange-500) / 0.1);
+      border: 1px solid rgb(var(--sm-rgb-orange-500) / 0.2);
+      color: var(--sm-color-orange-100);
       padding: 0.15rem 0.6rem;
       border-radius: 20px;
       font-size: 0.75rem;
@@ -554,9 +635,9 @@ import { StorageService } from '@core/services/storage.service';
       display: inline-flex;
       align-items: center;
       gap: 0.35rem;
-      background: rgba(139, 92, 246, 0.1);
-      border: 1px solid rgba(139, 92, 246, 0.25);
-      color: #a78bfa;
+      background: rgb(var(--sm-rgb-orange-500) / 0.08);
+      border: 1px solid rgb(var(--sm-rgb-orange-500) / 0.16);
+      color: var(--sm-color-orange-200);
       padding: 0.15rem 0.6rem;
       border-radius: 20px;
       font-size: 0.75rem;
@@ -572,13 +653,19 @@ import { StorageService } from '@core/services/storage.service';
       border-radius: 8px;
       font-size: 0.7rem;
       font-weight: 700;
-      background: rgba(59, 130, 246, 0.1);
-      color: #60a5fa;
-      border: 1px solid rgba(59, 130, 246, 0.2);
+      background: rgb(var(--sm-rgb-orange-500) / 0.1);
+      color: var(--sm-color-orange-100);
+      border: 1px solid rgb(var(--sm-rgb-orange-500) / 0.18);
     }
  
     @media (max-width: 768px) {
       .page-container { padding: 1rem; }
+      .hero-banner {
+        flex-direction: column;
+      }
+      .hero-badges {
+        justify-content: flex-start;
+      }
       .stats-grid { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; }
       .filters-container {
         flex-direction: column; align-items: stretch; gap: 1rem; padding: 1rem;

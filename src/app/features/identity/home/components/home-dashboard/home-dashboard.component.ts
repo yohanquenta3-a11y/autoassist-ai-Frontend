@@ -12,8 +12,12 @@ import { LucideAngularModule } from 'lucide-angular';
   styleUrl: './home-dashboard.component.scss',
 })
 export class HomeDashboardComponent {
-  title = input('Centro de Operaciones Smart Mechanic');
+  title = input('Centro de Operaciones AutoAssist AI');
   subtitle = input('Vision integral del estado de la plataforma en tiempo real.');
+  personaLabel = input('');
+  personaSummary = input('');
+  statusTitle = input('Operacion estable');
+  statusSummary = input('Vista general lista para seguimiento');
   kpis = input<HomeKpi[]>([]);
   highlights = input<string[]>([]);
   alerts = input<HomeAlert[]>([]);

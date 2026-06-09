@@ -60,6 +60,19 @@ import { PageHeaderComponent, LoadingStateComponent, EmptyStateComponent } from 
       @if (paymentsQuery.isLoading()) {
         <app-loading-state message="Analizando transacciones..."></app-loading-state>
       } @else {
+        <section class="hero-banner sm-surface-panel">
+          <div class="hero-copy">
+            <span class="sm-section-kicker">AutoAssist AI</span>
+            <h2>Lectura financiera clara para ingresos, comisiones y liquidez.</h2>
+            <p>El panel resume volumen, comisión de plataforma, margen y movimientos recientes con una experiencia más ejecutiva.</p>
+          </div>
+          <div class="hero-badges">
+            <span class="sm-pill">Cobros recientes</span>
+            <span class="sm-pill">Comisión visible</span>
+            <span class="sm-pill">Liquidez rápida</span>
+          </div>
+        </section>
+
         <!-- KPI Grid -->
         <div class="kpi-grid">
           <!-- KPI 1: Ingresos Brutos (Total procesado) -->
@@ -198,21 +211,65 @@ import { PageHeaderComponent, LoadingStateComponent, EmptyStateComponent } from 
     </div>
   `,
   styles: [`
-    .page-container { padding: 2rem; max-width: 1400px; margin: 0 auto; animation: fadeIn 0.4s ease-out; }
+    .page-container { padding: 0 0 2rem; max-width: 1400px; margin: 0 auto; animation: fadeIn 0.4s ease-out; }
 
-    .refresh-btn { color: var(--sm-color-text-muted); }
+    .hero-banner {
+      padding: 1.25rem 1.35rem;
+      border-radius: 1.5rem;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 1.25rem;
+      border: 1px solid rgb(var(--sm-rgb-copper-500) / 0.14);
+      background:
+        radial-gradient(circle at top right, rgb(var(--sm-rgb-copper-500) / 0.12), transparent 24%),
+        linear-gradient(180deg, rgb(var(--sm-rgb-white) / 0.02), rgb(var(--sm-rgb-white) / 0.01)),
+        var(--sm-color-gunmetal-900);
+    }
+
+    .hero-copy {
+      display: flex;
+      flex-direction: column;
+      gap: 0.55rem;
+      max-width: 54rem;
+    }
+
+    .hero-copy h2 {
+      margin: 0;
+      color: var(--sm-color-text-title);
+      font-size: clamp(1.2rem, 2vw, 1.7rem);
+      line-height: 1.1;
+    }
+
+    .hero-copy p {
+      margin: 0;
+      color: var(--sm-color-text-soft);
+      line-height: 1.5;
+      font-size: 0.92rem;
+    }
+
+    .hero-badges {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      gap: 0.55rem;
+      min-width: 12rem;
+    }
+
+    .refresh-btn { color: var(--sm-color-copper-300); }
 
     /* KPI Grid */
-    .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem; margin-bottom: 2.5rem; }
+    .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem; margin-bottom: 2rem; }
     .kpi-card {
       padding: 1.5rem; border-radius: 16px; border: 1px solid rgba(255,255,255,0.05); display: flex; align-items: center; gap: 1.25rem;
-      &.border-sapphire { border-left: 4px solid var(--sm-color-sapphire-400); }
+      &.border-sapphire { border-left: 4px solid var(--sm-color-copper-400); }
       &.border-orange { border-left: 4px solid #f39c12; }
       &.border-emerald { border-left: 4px solid #2ecc71; }
       
       .kpi-icon {
         width: 54px; height: 54px; border-radius: 12px; display: flex; align-items: center; justify-content: center;
-        &.sapphire { background: rgba(var(--sm-rgb-sapphire-400), 0.1); color: var(--sm-color-sapphire-400); }
+        &.sapphire { background: rgb(var(--sm-rgb-copper-500) / 0.1); color: var(--sm-color-copper-300); }
         &.orange { background: rgba(243, 156, 18, 0.1); color: #f39c12; }
         &.emerald { background: rgba(46, 204, 113, 0.1); color: #2ecc71; }
       }
@@ -234,7 +291,7 @@ import { PageHeaderComponent, LoadingStateComponent, EmptyStateComponent } from 
 
     .section-header { margin-bottom: 1.25rem; h3 { font-size: 1.1rem; font-weight: 700; color: white; margin: 0; } }
 
-    .table-card { border-radius: 16px; overflow: hidden; padding: 0; }
+    .table-card { border-radius: 20px; overflow: hidden; padding: 0; border: 1px solid rgb(var(--sm-rgb-copper-500) / 0.12); }
     .modern-table {
       width: 100%; background: transparent;
       th { padding: 1rem 1.5rem; color: var(--sm-color-text-muted); font-size: 0.7rem; text-transform: uppercase; border-bottom: 1px solid rgba(255,255,255,0.05); }
@@ -248,7 +305,7 @@ import { PageHeaderComponent, LoadingStateComponent, EmptyStateComponent } from 
       .sub-date { font-size: 0.7rem; color: var(--sm-color-text-muted); }
     }
 
-    .id-tag { font-family: monospace; font-size: 0.75rem; color: var(--sm-color-sapphire-400); background: rgba(var(--sm-rgb-sapphire-400), 0.1); padding: 0.2rem 0.5rem; border-radius: 4px; }
+    .id-tag { font-family: monospace; font-size: 0.75rem; color: var(--sm-color-copper-300); background: rgb(var(--sm-rgb-copper-500) / 0.1); padding: 0.2rem 0.5rem; border-radius: 999px; }
     .monto-total { font-weight: 700; color: white; font-size: 0.9rem; }
     .monto-comision { color: #f39c12; font-weight: 600; font-size: 0.85rem; }
 
@@ -279,6 +336,21 @@ import { PageHeaderComponent, LoadingStateComponent, EmptyStateComponent } from 
     }
 
     @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+    @media (max-width: 960px) {
+      .hero-banner {
+        flex-direction: column;
+      }
+
+      .hero-badges {
+        justify-content: flex-start;
+      }
+
+      .dashboard-grid {
+        grid-template-columns: 1fr;
+        gap: 1.25rem;
+      }
+    }
   `]
 })
 export class DashboardFinancieroPage {

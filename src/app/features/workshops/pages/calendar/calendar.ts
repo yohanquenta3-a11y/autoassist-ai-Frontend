@@ -793,8 +793,8 @@ import { UserResponse, VehicleResponse } from '@core/models/identity.model';
   `,
   styles: [`
     .page-container {
-      padding: 2rem;
-      max-width: 1400px;
+      padding: 0 0 2rem;
+      max-width: 1440px;
       margin: 0 auto;
       animation: fadeIn 0.4s ease-out;
     }
@@ -803,14 +803,13 @@ import { UserResponse, VehicleResponse } from '@core/models/identity.model';
     .stats-deck {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 1.5rem;
-      margin-bottom: 2rem;
+      gap: 1rem;
     }
     .stat-card {
-      padding: 1.5rem;
-      border-radius: 16px !important;
-      background: rgba(255, 255, 255, 0.02) !important;
-      border: 1px solid rgba(255, 255, 255, 0.05) !important;
+      padding: 1.25rem;
+      border-radius: 22px !important;
+      background: linear-gradient(180deg, rgba(14, 17, 24, 0.95), rgba(9, 12, 19, 0.98)) !important;
+      border: 1px solid rgba(255, 149, 32, 0.12) !important;
       display: flex;
       align-items: center;
       gap: 1.25rem;
@@ -899,16 +898,16 @@ import { UserResponse, VehicleResponse } from '@core/models/identity.model';
     .calendar-layout-grid {
       display: grid;
       grid-template-columns: 380px 1fr;
-      gap: 2rem;
+      gap: 1.25rem;
       align-items: start;
     }
 
     /* Panel Calendario */
     .calendar-panel-wrapper {
-      padding: 1.75rem;
-      border-radius: 16px !important;
-      background: rgba(255, 255, 255, 0.02) !important;
-      border: 1px solid rgba(255, 255, 255, 0.05) !important;
+      padding: 1.35rem;
+      border-radius: 24px !important;
+      background: linear-gradient(180deg, rgba(14, 17, 24, 0.95), rgba(9, 12, 19, 0.98)) !important;
+      border: 1px solid rgba(255, 149, 32, 0.12) !important;
     }
     .calendar-panel-header {
       display: flex;
@@ -936,7 +935,7 @@ import { UserResponse, VehicleResponse } from '@core/models/identity.model';
       justify-content: center !important;
       background: rgba(255, 255, 255, 0.02) !important;
       border: 1px solid rgba(255, 255, 255, 0.05) !important;
-      border-radius: 8px !important;
+      border-radius: 12px !important;
       padding: 0 !important;
       line-height: 1 !important;
       i {
@@ -946,7 +945,7 @@ import { UserResponse, VehicleResponse } from '@core/models/identity.model';
       }
       &:hover {
         color: white !important;
-        background: rgba(255, 255, 255, 0.08) !important;
+        background: rgba(255, 149, 32, 0.08) !important;
       }
     }
     .current-month-label {
@@ -976,7 +975,7 @@ import { UserResponse, VehicleResponse } from '@core/models/identity.model';
     }
     .calendar-day-cell {
       aspect-ratio: 1;
-      border-radius: 10px;
+      border-radius: 14px;
       border: 1px solid rgba(255, 255, 255, 0.03);
       background: rgba(255, 255, 255, 0.01);
       color: var(--sm-color-text-soft);
@@ -995,8 +994,8 @@ import { UserResponse, VehicleResponse } from '@core/models/identity.model';
       }
 
       &:hover {
-        background: rgba(59, 130, 246, 0.1);
-        border-color: rgba(59, 130, 246, 0.3);
+        background: rgba(255, 149, 32, 0.08);
+        border-color: rgba(255, 149, 32, 0.22);
         color: white;
       }
 
@@ -1010,10 +1009,10 @@ import { UserResponse, VehicleResponse } from '@core/models/identity.model';
       }
 
       &.selected {
-        background: #3b82f6 !important;
-        border-color: #3b82f6 !important;
+        background: linear-gradient(135deg, #ffb347, #ff7a18) !important;
+        border-color: #ff8a1f !important;
         color: white !important;
-        box-shadow: 0 0 12px rgba(59, 130, 246, 0.4);
+        box-shadow: 0 0 14px rgba(255, 122, 24, 0.35);
       }
 
       &.empty {
@@ -1065,15 +1064,15 @@ import { UserResponse, VehicleResponse } from '@core/models/identity.model';
     .agenda-panel-wrapper {
       display: flex;
       flex-direction: column;
-      gap: 1.5rem;
+      gap: 1rem;
     }
 
     /* Filtros Agenda */
     .agenda-filters-bar {
-      padding: 1.25rem 1.5rem;
-      border-radius: 16px !important;
-      background: rgba(255, 255, 255, 0.02) !important;
-      border: 1px solid rgba(255, 255, 255, 0.05) !important;
+      padding: 1rem 1.1rem;
+      border-radius: 24px !important;
+      background: linear-gradient(180deg, rgba(14, 17, 24, 0.95), rgba(9, 12, 19, 0.98)) !important;
+      border: 1px solid rgba(255, 149, 32, 0.12) !important;
       display: flex;
       flex-wrap: wrap;
       gap: 1rem;
@@ -1097,9 +1096,8 @@ import { UserResponse, VehicleResponse } from '@core/models/identity.model';
       transition: all 0.2s ease;
       &:focus {
         outline: none;
-        border-color: rgba(59, 130, 246, 0.5);
+        border-color: rgba(255, 149, 32, 0.4);
         background: rgba(255, 255, 255, 0.06);
-        box-shadow: 0 0 10px rgba(59, 130, 246, 0.15);
       }
     }
     .status-filters-tabs {
@@ -1108,7 +1106,7 @@ import { UserResponse, VehicleResponse } from '@core/models/identity.model';
       background: rgba(255, 255, 255, 0.02);
       border: 1px solid rgba(255, 255, 255, 0.05);
       padding: 0.2rem;
-      border-radius: 10px;
+      border-radius: 14px;
     }
     .status-tab-btn {
       padding: 0.4rem 0.85rem;
@@ -1127,8 +1125,8 @@ import { UserResponse, VehicleResponse } from '@core/models/identity.model';
       }
       &.active {
         color: white;
-        background: #3b82f6;
-        box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
+        background: linear-gradient(135deg, #ffb347, #ff7a18);
+        box-shadow: 0 2px 10px rgba(255, 122, 24, 0.28);
       }
     }
     .branch-local-filter {
@@ -1276,10 +1274,10 @@ import { UserResponse, VehicleResponse } from '@core/models/identity.model';
       background: transparent;
     }
     .appointment-card {
-      padding: 1.5rem;
-      border-radius: 16px !important;
-      background: rgba(255, 255, 255, 0.02) !important;
-      border: 1px solid rgba(255, 255, 255, 0.05) !important;
+      padding: 1.2rem;
+      border-radius: 22px !important;
+      background: linear-gradient(180deg, rgba(14, 17, 24, 0.95), rgba(9, 12, 19, 0.98)) !important;
+      border: 1px solid rgba(255, 149, 32, 0.1) !important;
       display: flex;
       flex-direction: column;
       gap: 1.25rem;
@@ -1288,7 +1286,6 @@ import { UserResponse, VehicleResponse } from '@core/models/identity.model';
       &:hover {
         transform: translateY(-2px);
         border-color: rgba(255, 255, 255, 0.08) !important;
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
       }
       
       &.pendiente_confirmacion { border-left: 3px solid #f59e0b !important; }
@@ -1302,6 +1299,8 @@ import { UserResponse, VehicleResponse } from '@core/models/identity.model';
       display: flex;
       justify-content: space-between;
       align-items: center;
+      gap: 0.75rem;
+      flex-wrap: wrap;
     }
     .status-badge {
       display: inline-flex;
@@ -1354,7 +1353,7 @@ import { UserResponse, VehicleResponse } from '@core/models/identity.model';
       text-transform: uppercase;
       letter-spacing: 0.05em;
       padding: 0.2rem 0.5rem;
-      border-radius: 4px;
+      border-radius: 999px;
       background: rgba(255, 255, 255, 0.03);
       color: var(--sm-color-text-muted);
 
@@ -1366,7 +1365,7 @@ import { UserResponse, VehicleResponse } from '@core/models/identity.model';
     .card-body {
       display: grid;
       grid-template-columns: 1fr 240px;
-      gap: 1.5rem;
+      gap: 1rem;
     }
     .card-left-info {
       display: flex;
@@ -1404,9 +1403,9 @@ import { UserResponse, VehicleResponse } from '@core/models/identity.model';
       font-family: monospace;
       font-size: 0.75rem;
       font-weight: 700;
-      color: #3b82f6;
-      background: rgba(59, 130, 246, 0.1);
-      border: 1px solid rgba(59, 130, 246, 0.2);
+      color: #ffd089;
+      background: rgba(255, 149, 32, 0.1);
+      border: 1px solid rgba(255, 149, 32, 0.18);
       padding: 0.1rem 0.4rem;
       border-radius: 4px;
     }
@@ -1470,7 +1469,7 @@ import { UserResponse, VehicleResponse } from '@core/models/identity.model';
       gap: 0.4rem;
       justify-content: center;
 
-      .branch-name-val { color: #3b82f6; font-weight: 600; }
+      .branch-name-val { color: #ffd089; font-weight: 700; }
       .tech-name-val { color: white; font-weight: 600; }
       .date-created { font-size: 0.7rem; margin-top: 0.5rem; }
     }
@@ -1608,6 +1607,7 @@ import { UserResponse, VehicleResponse } from '@core/models/identity.model';
 
     .card-footer-actions {
       display: flex;
+      flex-wrap: wrap;
       gap: 0.5rem;
       justify-content: flex-end;
       border-top: 1px solid rgba(255, 255, 255, 0.04);
@@ -1654,11 +1654,13 @@ import { UserResponse, VehicleResponse } from '@core/models/identity.model';
     }
     .incident-modal-card {
       width: 100%;
-      max-width: 600px;
-      border-radius: 16px !important;
-      background: rgba(20, 26, 40, 0.95) !important;
-      border: 1px solid rgba(255, 255, 255, 0.08) !important;
-      padding: 1.75rem 2rem;
+      max-width: 720px;
+      max-height: min(92vh, 920px);
+      overflow: auto;
+      border-radius: 24px !important;
+      background: rgba(16, 20, 30, 0.97) !important;
+      border: 1px solid rgba(255, 149, 32, 0.16) !important;
+      padding: 1.35rem 1.35rem 1.5rem;
       box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
     }
     .modal-header {
@@ -1692,7 +1694,7 @@ import { UserResponse, VehicleResponse } from '@core/models/identity.model';
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.05em;
-      color: #3b82f6;
+      color: #ffcf8e;
       margin-bottom: 0.75rem;
     }
     .modal-fields-grid {
@@ -1718,7 +1720,7 @@ import { UserResponse, VehicleResponse } from '@core/models/identity.model';
       font-weight: 600;
       color: white;
       
-      &.code { font-family: monospace; font-size: 0.8rem; color: #818cf8; }
+      &.code { font-family: monospace; font-size: 0.8rem; color: #ffd089; }
       &.status {
         font-size: 0.75rem;
         text-transform: uppercase;
@@ -1789,6 +1791,15 @@ import { UserResponse, VehicleResponse } from '@core/models/identity.model';
     .mt-4 { margin-top: 1rem; }
 
     @media (max-width: 960px) {
+      .page-container {
+        gap: 1rem;
+        padding-bottom: 1.5rem;
+      }
+
+      .stats-deck {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
       .calendar-layout-grid {
         grid-template-columns: 1fr;
       }
@@ -1797,6 +1808,54 @@ import { UserResponse, VehicleResponse } from '@core/models/identity.model';
       }
     }
     @media (max-width: 600px) {
+      .stats-deck {
+        grid-template-columns: 1fr;
+      }
+
+      .stat-card {
+        padding: 1rem;
+        gap: 0.9rem;
+      }
+
+      .calendar-panel-wrapper,
+      .agenda-filters-bar,
+      .appointment-card {
+        padding: 1rem;
+      }
+
+      .calendar-days-grid-header,
+      .calendar-days-grid-body {
+        gap: 0.35rem;
+      }
+
+      .agenda-list-header,
+      .agenda-header-actions,
+      .card-footer-actions,
+      .reschedule-actions,
+      .modal-footer {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .card-footer-actions .btn-action,
+      .reschedule-actions button,
+      .modal-footer .btn-close-action {
+        width: 100%;
+      }
+
+      .incident-modal-backdrop {
+        padding: 0.75rem;
+      }
+
+      .incident-modal-card {
+        padding: 1rem;
+      }
+
+      .modal-fields-grid {
+        grid-template-columns: 1fr;
+        gap: 0.9rem;
+      }
+
       .card-body {
         grid-template-columns: 1fr;
       }
@@ -1810,6 +1869,7 @@ import { UserResponse, VehicleResponse } from '@core/models/identity.model';
       .filters-row {
         grid-template-columns: 1fr;
       }
+
     }
   `]
 })

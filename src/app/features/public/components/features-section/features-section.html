@@ -1,9 +1,13 @@
 <section class="features-section">
   <div class="features-header">
-    <h2 class="section-title">Tecnología al servicio de tu tranquilidad</h2>
-    <p class="section-subtitle">Descubre por qué Smart Mechanic es la solución definitiva para emergencias viales.</p>
+    <p class="section-kicker">Capacidades clave</p>
+    <h2 class="section-title">Tecnologia operativa pensada para asistencia real</h2>
+    <p class="section-subtitle">
+      AutoAssist AI unifica respuesta vial, control del taller y seguimiento al
+      cliente con una interfaz mas clara y actual.
+    </p>
   </div>
-  
+
   <div class="features-grid">
     @for (feature of features; track feature.title) {
       <div class="feature-card">
@@ -16,6 +20,7 @@
         >
           <lucide-icon [img]="feature.icon" [size]="24"></lucide-icon>
         </div>
+        <div class="feature-index">0{{ $index + 1 }}</div>
         <h3 class="feature-title">{{ feature.title }}</h3>
         <p class="feature-desc">{{ feature.description }}</p>
       </div>

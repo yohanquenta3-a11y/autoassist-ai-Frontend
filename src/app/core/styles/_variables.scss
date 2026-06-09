@@ -1,46 +1,97 @@
-// Design Tokens - Smart Mechanic
+// Design Tokens - AutoAssist AI
 :root {
-  // Gunmetal Palette (Backgrounds)
-  --sm-color-gunmetal-950: #0d0f12;
-  --sm-color-gunmetal-900: #121417;
-  --sm-color-gunmetal-850: #1c1f24;
-  --sm-color-gunmetal-825: #232831;
-  --sm-color-gunmetal-800: #2a2d34;
+  // Core palette
+  --sm-color-obsidian-980: #eef8fa;
+  --sm-color-obsidian-950: #f7fcfd;
+  --sm-color-carbon-930: #ffffff;
+  --sm-color-gunmetal-950: #edf7f9;
+  --sm-color-gunmetal-900: #ffffff;
+  --sm-color-gunmetal-875: #f7fcfd;
+  --sm-color-gunmetal-850: #eef8fa;
+  --sm-color-gunmetal-825: #e6f4f7;
+  --sm-color-gunmetal-800: #d8edf1;
+  --sm-color-panel-780: #bfdfe6;
 
-  // Sapphire Palette (Accents)
-  --sm-color-sapphire-700: #1e3a8a;
-  --sm-color-sapphire-600: #1d4ed8;
-  --sm-color-sapphire-500: #2563eb;
-  --sm-color-sapphire-450: #1e40af;
-  --sm-color-sapphire-400: #3b82f6;
-  --sm-color-sapphire-300: #60a5fa;
-  --sm-color-sapphire-100: #dbeafe;
-  --sm-color-sapphire-050: #bfdbfe;
+  // Accent palette
+  --sm-color-copper-700: #155e75;
+  --sm-color-copper-600: #0f766e;
+  --sm-color-copper-500: #0ea5a4;
+  --sm-color-copper-450: #14b8a6;
+  --sm-color-copper-400: #2dd4bf;
+  --sm-color-copper-300: #5eead4;
+  --sm-color-copper-100: #ccfbf1;
+  --sm-color-copper-050: #f0fdfa;
+  --sm-color-amber-500: #38bdf8;
+  --sm-color-amber-400: #7dd3fc;
 
   // Text Colors
-  --sm-color-text-main: #e2e8f0;
-  --sm-color-text-soft: #94a3b8;
-  --sm-color-text-muted: #64748b;
-  --sm-color-text-title: #f8fafc;
-  --sm-color-text-label: #cbd5e1;
+  --sm-color-text-main: #102033;
+  --sm-color-text-soft: #365066;
+  --sm-color-text-muted: #5d7387;
+  --sm-color-text-title: #111827;
+  --sm-color-text-label: #274155;
   --sm-color-white: #ffffff;
 
   // Semantic Colors
-  --sm-color-success: #22c55e;
-  --sm-color-danger: #ef4444;
+  --sm-color-success: #34d399;
+  --sm-color-danger: #f87171;
   --sm-color-warning: #f59e0b;
-  --sm-color-info: #3b82f6;
+  --sm-color-info: #38bdf8;
 
   // Borders & Inputs
-  --sm-color-border: rgba(148, 163, 184, 0.12);
-  --sm-color-input-bg: #0f1115;
+  --sm-color-border: rgba(93, 115, 135, 0.18);
+  --sm-color-input-bg: #ffffff;
+  --sm-color-surface: rgba(255, 255, 255, 0.9);
+  --sm-color-surface-strong: rgba(247, 252, 253, 0.96);
+  --sm-color-border-metal: rgba(45, 212, 191, 0.22);
+  --sm-color-surface-glow: rgba(14, 165, 164, 0.12);
+  --sm-color-overlay: rgba(17, 24, 39, 0.18);
 
   // RGB versions for opacity control
-  --sm-rgb-sapphire-500: 37 99 235;
-  --sm-rgb-black: 0 0 0;
+  --sm-rgb-copper-500: 14 165 164;
+  --sm-rgb-copper-400: 45 212 191;
+  --sm-rgb-black: 15 23 42;
   --sm-rgb-white: 255 255 255;
-  --sm-rgb-slate-400: 148 163 184;
+  --sm-rgb-slate-400: 93 115 135;
+  --sm-rgb-success-500: 52 211 153;
+  --sm-rgb-danger-500: 248 113 113;
 
   // Typography
-  --sm-font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  --sm-font-family: 'Space Grotesk', system-ui, -apple-system, sans-serif;
+  --sm-font-display: 'Sora', 'Space Grotesk', system-ui, sans-serif;
+
+  // Radii and shadows
+  --sm-radius-sm: 12px;
+  --sm-radius-md: 18px;
+  --sm-radius-lg: 24px;
+  --sm-radius-xl: 32px;
+  --sm-shadow-soft: 0 18px 38px -28px rgb(15 23 42 / 0.16);
+  --sm-shadow-panel: 0 26px 54px -34px rgb(15 23 42 / 0.18);
+  --sm-shadow-glow:
+    0 0 0 1px rgb(var(--sm-rgb-copper-400) / 0.12),
+    0 24px 54px -34px rgb(var(--sm-rgb-copper-500) / 0.16);
+}
+
+// Backward compatible aliases
+:root {
+  --sm-color-orange-600: var(--sm-color-copper-700);
+  --sm-color-orange-500: var(--sm-color-copper-600);
+  --sm-color-orange-400: var(--sm-color-copper-500);
+  --sm-color-orange-300: var(--sm-color-copper-400);
+  --sm-color-orange-200: #0f766e;
+  --sm-color-orange-100: #083344;
+  --sm-color-sapphire-700: var(--sm-color-copper-700);
+  --sm-color-sapphire-600: var(--sm-color-copper-600);
+  --sm-color-sapphire-500: var(--sm-color-copper-500);
+  --sm-color-sapphire-450: var(--sm-color-copper-450);
+  --sm-color-sapphire-400: var(--sm-color-copper-400);
+  --sm-color-sapphire-300: var(--sm-color-copper-300);
+  --sm-color-sapphire-100: var(--sm-color-copper-100);
+  --sm-color-sapphire-050: var(--sm-color-copper-050);
+  --sm-rgb-sapphire-500: var(--sm-rgb-copper-500);
+  --sm-rgb-orange-500: var(--sm-rgb-copper-500);
+  --sm-color-success-500: var(--sm-color-success);
+  --sm-color-success-200: #0f766e;
+  --sm-color-danger-500: var(--sm-color-danger);
+  --sm-color-danger-200: #b91c1c;
 }

@@ -35,6 +35,7 @@ import { Chart, registerables } from 'chart.js';
 import type * as L from 'leaflet';
 
 import { AuthStore } from '@features/identity/auth/state/auth.store';
+import { OfflineSnapshotService } from '@core/services/offline-snapshot.service';
 import { WorkshopsService } from '@features/workshops/data-access/workshops.service';
 import { SucursalResponse, TallerResponse } from '@core/models/workshops.model';
 import {
@@ -106,6 +107,31 @@ Chart.register(...registerables);
           </button>
         </div>
       </app-page-header>
+
+      <section class="hero-banner sm-surface-panel">
+        <div class="hero-copy">
+          <span class="sm-section-kicker">AutoAssist AI</span>
+          <h2>Monitorea operación, densidad y cumplimiento sin perder contexto.</h2>
+          <p>El centro de mando consolida métricas reales, ranking operativo y actividad reciente con una presentación más clara, ejecutiva y alineada al nuevo lenguaje visual.</p>
+        </div>
+        <div class="hero-badges">
+          <span class="sm-pill">SLA visible</span>
+          <span class="sm-pill">Mapa en vivo</span>
+          <span class="sm-pill">Ranking operativo</span>
+        </div>
+      </section>
+
+      @if (offlineMode()) {
+        <div class="offline-banner warning">
+          <strong>Modo sin conexion.</strong>
+          <span>Mostrando el ultimo dashboard guardado localmente.</span>
+        </div>
+      } @else if (cachedSnapshotAt()) {
+        <div class="offline-banner soft">
+          <strong>Snapshot local disponible.</strong>
+          <span>Ultima sincronizacion: {{ cachedSnapshotAt() | date:'dd/MM/yy HH:mm' : '-0400' }}</span>
+        </div>
+      }
 
       <div class="filters-container sm-glass-card">
         <div class="filters-grid">
@@ -300,6 +326,30 @@ Chart.register(...registerables);
             <mat-card class="list-card sm-glass-card">
               <div class="card-header">
                 <div class="title-with-icon">
+                  <lucide-icon [img]="alertIcon" [size]="18"></lucide-icon>
+                  <h3>Incidentes por Tipo</h3>
+                </div>
+              </div>
+              @if (incidentTypes(dashboard).length === 0) {
+                <p class="empty-inline">No hay clasificacion suficiente para este rango.</p>
+              } @else {
+                <div class="type-list">
+                  @for (item of incidentTypes(dashboard); track item.label) {
+                    <div class="type-row">
+                      <div class="type-copy">
+                        <strong>{{ item.label }}</strong>
+                        <p>{{ item.value }} incidentes clasificados</p>
+                      </div>
+                      <span class="type-value">{{ item.value }}</span>
+                    </div>
+                  }
+                </div>
+              }
+            </mat-card>
+
+            <mat-card class="list-card sm-glass-card">
+              <div class="card-header">
+                <div class="title-with-icon">
                   <lucide-icon [img]="activityIcon" [size]="18"></lucide-icon>
                   <h3>Actividad Reciente</h3>
                 </div>
@@ -329,23 +379,96 @@ Chart.register(...registerables);
     </div>
   `,
   styles: [`
-    .page-container { padding: 2rem; max-width: 1400px; margin: 0 auto; }
+    .page-container {
+      padding: 0 0 2rem;
+      max-width: 1440px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+      animation: fadeIn 0.35s ease-out;
+    }
+    .hero-banner {
+      padding: 1.25rem 1.35rem;
+      border-radius: 1.5rem;
+      display: grid;
+      grid-template-columns: minmax(0, 1.35fr) minmax(240px, 0.8fr);
+      gap: 1rem;
+      border: 1px solid rgb(var(--sm-rgb-copper-500) / 0.14);
+      background:
+        radial-gradient(circle at top right, rgb(var(--sm-rgb-copper-500) / 0.14), transparent 24%),
+        linear-gradient(180deg, rgb(var(--sm-rgb-white) / 0.98), rgb(240 250 251 / 0.94)),
+        var(--sm-color-gunmetal-900);
+    }
+    .hero-copy {
+      display: flex;
+      flex-direction: column;
+      gap: 0.55rem;
+      max-width: 54rem;
+    }
+    .hero-copy h2 {
+      margin: 0;
+      color: var(--sm-color-text-title);
+      font-size: clamp(1.2rem, 2vw, 1.7rem);
+      line-height: 1.1;
+    }
+    .hero-copy p {
+      margin: 0;
+      color: var(--sm-color-text-soft);
+      line-height: 1.5;
+      font-size: 0.92rem;
+    }
+    .hero-badges {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-start;
+      gap: 0.55rem;
+      min-width: 12rem;
+      align-content: flex-start;
+    }
+    .offline-banner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      padding: 0.9rem 1rem;
+      border-radius: 18px;
+      font-size: 0.84rem;
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+    .offline-banner.warning {
+      background: rgba(245, 158, 11, 0.12);
+      color: #fcd34d;
+      border-color: rgba(245, 158, 11, 0.28);
+    }
+    .offline-banner.soft {
+      background: rgba(59, 130, 246, 0.08);
+      color: #bfdbfe;
+      border-color: rgba(59, 130, 246, 0.2);
+    }
     .header-actions { display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap; }
     .sync-indicator {
-      display: inline-flex; align-items: center; gap: 0.45rem; color: var(--sm-color-sapphire-400);
+      display: inline-flex; align-items: center; gap: 0.45rem; color: #ffcf8e;
       font-size: 0.78rem; font-weight: 700;
     }
     .sync-dot {
-      width: 0.5rem; height: 0.5rem; border-radius: 999px; background: var(--sm-color-sapphire-400);
-      box-shadow: 0 0 0 0 rgba(var(--sm-rgb-sapphire-400), 0.45); animation: pulse 1.6s infinite;
+      width: 0.5rem; height: 0.5rem; border-radius: 999px; background: #ffb347;
+      box-shadow: 0 0 0 0 rgba(255, 179, 71, 0.45); animation: pulse 1.6s infinite;
     }
     .scope-badge, .fixed-context {
-      padding: 0.45rem 0.8rem; border-radius: 999px; color: var(--sm-color-sapphire-400);
+      padding: 0.45rem 0.8rem; border-radius: 999px; color: #ffd089;
       font-size: 0.78rem; font-weight: 700;
     }
     .secondary-btn { display: inline-flex; align-items: center; gap: 0.45rem; }
     .clear-btn { color: var(--sm-color-text-muted); font-weight: 700; }
-    .filters-container { padding: 1.2rem 1.5rem; margin-bottom: 1.5rem; }
+    .filters-container {
+      padding: 1rem 1.1rem;
+      border-radius: 24px;
+      border: 1px solid rgb(var(--sm-rgb-copper-500) / 0.12);
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.03),
+        0 18px 38px rgba(0, 0, 0, 0.18);
+    }
     .filters-grid { display: flex; gap: 0.85rem; flex-wrap: wrap; align-items: center; }
     .sm-select { width: 170px; }
     .date-filter-group { display: flex; align-items: center; gap: 0.55rem; }
@@ -354,8 +477,19 @@ Chart.register(...registerables);
       text-transform: uppercase; letter-spacing: 0.05em;
     }
     .date-field { width: 160px; }
-    .mini-stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 1rem; margin-bottom: 1.5rem; }
-    .stat-box { padding: 1.25rem; display: flex; align-items: center; gap: 1rem; }
+    .mini-stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 1rem; }
+    .stat-box {
+      padding: 1.15rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      border-radius: 22px;
+      border: 1px solid rgb(var(--sm-rgb-copper-500) / 0.12);
+      background: linear-gradient(180deg, rgb(var(--sm-rgb-white) / 0.98), rgb(240 250 251 / 0.94));
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.65),
+        0 18px 38px rgba(15, 23, 42, 0.08);
+    }
     .icon-wrap { width: 46px; height: 46px; border-radius: 12px; display: flex; align-items: center; justify-content: center; }
     .icon-wrap.sapphire { background: rgba(var(--sm-rgb-sapphire-400), 0.15); color: var(--sm-color-sapphire-400); }
     .icon-wrap.emerald { background: rgba(46, 204, 113, 0.15); color: #2ecc71; }
@@ -365,19 +499,48 @@ Chart.register(...registerables);
     .icon-wrap.gold { background: rgba(251, 191, 36, 0.15); color: #fbbf24; }
     .info { display: flex; flex-direction: column; gap: 0.2rem; }
     .label { font-size: 0.72rem; color: var(--sm-color-text-muted); text-transform: uppercase; letter-spacing: 0.05em; }
-    .value { font-size: 1.5rem; font-weight: 800; color: white; }
-    .main-grid, .secondary-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem; }
-    .chart-card, .map-card, .list-card { padding: 1.4rem; border: none; }
-    .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
-    .title-with-icon { display: flex; align-items: center; gap: 0.7rem; color: var(--sm-color-sapphire-400); }
-    .title-with-icon h3 { margin: 0; font-size: 1rem; color: white; }
+    .value { font-size: 1.5rem; font-weight: 800; color: var(--sm-color-text-title); }
+    .main-grid, .secondary-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.1rem; }
+    .chart-card, .map-card, .list-card {
+      padding: 1.2rem;
+      border: 1px solid rgb(var(--sm-rgb-copper-500) / 0.12);
+      border-radius: 24px;
+      background: linear-gradient(180deg, rgb(var(--sm-rgb-white) / 0.98), rgb(240 250 251 / 0.94));
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.65),
+        0 18px 38px rgba(15, 23, 42, 0.08);
+    }
+    .card-header { display: flex; justify-content: space-between; align-items: center; gap: 0.75rem; margin-bottom: 1rem; flex-wrap: wrap; }
+    .title-with-icon { display: flex; align-items: center; gap: 0.7rem; color: var(--sm-color-copper-700); }
+    .title-with-icon h3 { margin: 0; font-size: 1rem; color: var(--sm-color-text-title); }
     .chart-container { height: 340px; position: relative; }
-    .heatmap-container { height: 380px; border-radius: 12px; overflow: hidden; background: #0f172a; border: 1px solid rgba(255,255,255,0.05); }
+    .heatmap-container { height: 380px; border-radius: 18px; overflow: hidden; background: #eaf7f8; border: 1px solid rgba(14,165,164,0.08); }
     .ranking-list, .activity-list { display: flex; flex-direction: column; gap: 0.75rem; }
+    .type-list { display: flex; flex-direction: column; gap: 0.75rem; }
     .ranking-row, .activity-row {
       display: flex; align-items: center; justify-content: space-between; gap: 1rem;
-      padding: 0.9rem 1rem; border-radius: 14px; background: rgba(255,255,255,0.03);
-      border: 1px solid rgba(255,255,255,0.05);
+      padding: 0.95rem 1rem; border-radius: 18px; background: rgb(var(--sm-rgb-white) / 0.74);
+      border: 1px solid rgb(var(--sm-rgb-copper-500) / 0.08);
+    }
+    .type-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 0.95rem 1rem;
+      border-radius: 18px;
+      background: linear-gradient(90deg, rgba(94, 234, 212, 0.16), rgba(56, 189, 248, 0.1));
+      border: 1px solid rgba(14,165,164,0.1);
+    }
+    .type-copy p { margin: 0.2rem 0 0; color: var(--sm-color-text-muted); font-size: 0.82rem; }
+    .type-value {
+      min-width: 2.5rem;
+      text-align: center;
+      padding: 0.35rem 0.65rem;
+      border-radius: 999px;
+      background: rgb(var(--sm-rgb-white) / 0.82);
+      color: var(--sm-color-text-title);
+      font-weight: 800;
     }
     .ranking-row p, .activity-main p { margin: 0.2rem 0 0; color: var(--sm-color-text-muted); font-size: 0.82rem; }
     .metrics { display: flex; flex-direction: column; gap: 0.25rem; text-align: right; color: var(--sm-color-text-soft); font-size: 0.82rem; }
@@ -385,12 +548,12 @@ Chart.register(...registerables);
     .activity-main { flex: 1; }
     .activity-meta { display: flex; flex-direction: column; align-items: flex-end; gap: 0.35rem; font-size: 0.8rem; color: var(--sm-color-text-soft); }
     .status-chip {
-      background: rgba(var(--sm-rgb-sapphire-400), 0.12);
-      color: var(--sm-color-sapphire-300);
+      background: rgba(255, 149, 32, 0.12);
+      color: #ffd089;
       padding: 0.2rem 0.55rem; border-radius: 999px; font-size: 0.72rem; font-weight: 700;
     }
     .empty-inline { margin: 0; color: var(--sm-color-text-muted); }
-    .empty-dashboard { padding: 1rem; }
+    .empty-dashboard { padding: 1rem; border-radius: 22px; }
     .error-state {
       padding: 2rem; text-align: center; color: #e74c3c; display: flex; flex-direction: column;
       gap: 0.85rem; align-items: center;
@@ -400,13 +563,82 @@ Chart.register(...registerables);
       .main-grid, .secondary-grid { grid-template-columns: 1fr; }
     }
     @media (max-width: 900px) {
+      .page-container {
+        gap: 1rem;
+        padding-bottom: 1.5rem;
+      }
+
+      .hero-banner {
+        grid-template-columns: 1fr;
+      }
+
+      .filters-container,
+      .chart-card,
+      .map-card,
+      .list-card {
+        border-radius: 20px;
+      }
+
       .date-filter-group { width: 100%; justify-content: space-between; }
       .date-field { width: min(220px, 100%); }
     }
+    @media (max-width: 640px) {
+      .header-actions,
+      .filters-grid,
+      .offline-banner,
+      .type-row,
+      .ranking-row,
+      .activity-row {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .sm-select,
+      .date-field,
+      .date-filter-group,
+      .header-actions button,
+      .secondary-btn {
+        width: 100%;
+      }
+
+      .date-filter-group {
+        align-items: flex-start;
+      }
+
+      .mini-stats-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .stat-box {
+        padding: 1rem;
+      }
+
+      .chart-card, .map-card, .list-card {
+        padding: 1rem;
+      }
+
+      .chart-container {
+        height: 280px;
+      }
+
+      .heatmap-container {
+        height: 280px;
+      }
+
+      .metrics,
+      .activity-meta {
+        align-items: flex-start;
+        text-align: left;
+      }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
     @keyframes pulse {
-      0% { box-shadow: 0 0 0 0 rgba(var(--sm-rgb-sapphire-400), 0.45); }
-      70% { box-shadow: 0 0 0 10px rgba(var(--sm-rgb-sapphire-400), 0); }
-      100% { box-shadow: 0 0 0 0 rgba(var(--sm-rgb-sapphire-400), 0); }
+      0% { box-shadow: 0 0 0 0 rgba(255, 179, 71, 0.45); }
+      70% { box-shadow: 0 0 0 10px rgba(255, 179, 71, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(255, 179, 71, 0); }
     }
   `],
 })
@@ -415,6 +647,7 @@ export class CommandCenterPage implements AfterViewInit, OnDestroy {
   private workshopsService = inject(WorkshopsService);
   private authStore = inject(AuthStore);
   private platformId = inject(PLATFORM_ID);
+  private offlineSnapshot = inject(OfflineSnapshotService);
 
   @ViewChild('performanceChart') performanceChartRef?: ElementRef<HTMLCanvasElement>;
   @ViewChild('heatmapContainer') heatmapContainer?: ElementRef<HTMLDivElement>;
@@ -513,13 +746,31 @@ export class CommandCenterPage implements AfterViewInit, OnDestroy {
   }));
 
   readonly filtersKey = computed(() => JSON.stringify(this.filters()));
+  readonly offlineMode = signal(false);
+  readonly cachedSnapshotAt = signal<string | null>(null);
 
   dashboardQuery = injectQuery<OperationalDashboardResponse>(() => ({
     queryKey: ['operational-dashboard', this.filtersKey()],
-    queryFn: () =>
-      lastValueFrom(
-        this.monitoringService.getOperationalDashboard(this.filters()),
-      ),
+    queryFn: async () => {
+      const cacheKey = `sm:operational-dashboard:${this.filtersKey()}`;
+      try {
+        const data = await lastValueFrom(
+          this.monitoringService.getOperationalDashboard(this.filters()),
+        );
+        this.offlineSnapshot.write(cacheKey, data);
+        this.offlineMode.set(false);
+        this.cachedSnapshotAt.set(new Date().toISOString());
+        return data;
+      } catch (error) {
+        const cached = this.offlineSnapshot.read<OperationalDashboardResponse>(cacheKey);
+        if (cached) {
+          this.offlineMode.set(!this.offlineSnapshot.hasBrowserConnection());
+          this.cachedSnapshotAt.set(cached.savedAt);
+          return cached.data;
+        }
+        throw error;
+      }
+    },
   }));
 
   readonly dashboardData = computed(
@@ -597,6 +848,11 @@ export class CommandCenterPage implements AfterViewInit, OnDestroy {
         }
       }, 50);
     });
+
+    if (isPlatformBrowser(this.platformId)) {
+      window.addEventListener('online', this.handleBrowserOnline);
+      window.addEventListener('offline', this.handleBrowserOffline);
+    }
   }
 
   async ngAfterViewInit() {
@@ -610,6 +866,10 @@ export class CommandCenterPage implements AfterViewInit, OnDestroy {
   ngOnDestroy() {
     this.chart?.destroy();
     this.map?.remove();
+    if (isPlatformBrowser(this.platformId)) {
+      window.removeEventListener('online', this.handleBrowserOnline);
+      window.removeEventListener('offline', this.handleBrowserOffline);
+    }
   }
 
   onWorkshopChange(value: string) {
@@ -633,6 +893,10 @@ export class CommandCenterPage implements AfterViewInit, OnDestroy {
 
   hasDashboardContent(dashboard: OperationalDashboardResponse): boolean {
     return dashboard.summary.total_incidentes > 0;
+  }
+
+  incidentTypes(dashboard: OperationalDashboardResponse) {
+    return dashboard.series?.incidentes_por_tipo ?? [];
   }
 
   formatMinutes(value: number | null | undefined): string {
@@ -737,4 +1001,13 @@ export class CommandCenterPage implements AfterViewInit, OnDestroy {
 
     setTimeout(() => this.map?.invalidateSize(), 300);
   }
+
+  private handleBrowserOnline = () => {
+    this.offlineMode.set(false);
+    this.dashboardQuery.refetch();
+  };
+
+  private handleBrowserOffline = () => {
+    this.offlineMode.set(true);
+  };
 }

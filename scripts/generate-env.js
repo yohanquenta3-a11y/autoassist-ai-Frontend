@@ -15,7 +15,7 @@ if (fs.existsSync(envPath)) {
 
 const envConfig = {
   apiUrl: process.env.API_URL || 'http://localhost:8000/api/v1',
-  aiReportUrl: process.env.AI_REPORT_URL || '',
+  aiReportUrl: process.env.AI_REPORT_URL || '/ai-report',
   firebase: {
     apiKey: process.env.FIREBASE_API_KEY || '',
     authDomain: process.env.FIREBASE_AUTH_DOMAIN || '',

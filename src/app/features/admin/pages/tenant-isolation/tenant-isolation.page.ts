@@ -76,7 +76,7 @@ interface TenantFormData extends TallerTenantCreate {
     <div class="page-container">
       <app-page-header
         title="Tenants y aislamiento"
-        subtitle="CU33 para SuperAdmin: talleres, usuarios, tÃ©cnicos, incidentes, mÃ©tricas y bitÃ¡cora por tenant."
+        subtitle="Control central de talleres, sucursales, usuarios, tecnicos, incidentes y trazabilidad por red."
         [icon]="buildingIcon"
       >
         <div actions class="header-actions">
@@ -91,6 +91,32 @@ interface TenantFormData extends TallerTenantCreate {
         </div>
       </app-page-header>
 
+      <section class="isolation-stage">
+        <div class="stage-copy">
+          <span class="stage-kicker">Vista de gobierno</span>
+          <h2>Administra redes de talleres sin mezclar informacion entre tenants</h2>
+          <p>
+            Revisa estado operativo, datos de contacto, sucursales, tecnicos e incidentes desde
+            una consola mas clara y separada del diseño anterior.
+          </p>
+        </div>
+
+        <div class="stage-signals">
+          <div class="signal-card">
+            <strong>Busqueda focal</strong>
+            <span>Filtra por nombre, NIT, correo o telefono.</span>
+          </div>
+          <div class="signal-card">
+            <strong>Aislamiento visible</strong>
+            <span>Consulta usuarios, sucursales y registros del tenant seleccionado.</span>
+          </div>
+          <div class="signal-card">
+            <strong>Acciones directas</strong>
+            <span>Crea talleres, edita datos y ejecuta la verificacion desde la misma pantalla.</span>
+          </div>
+        </div>
+      </section>
+
       @if (!isSuperAdmin()) {
         <mat-card class="access-denied-card">
           <lucide-icon [img]="alertIcon" [size]="44" class="access-denied-icon"></lucide-icon>
@@ -104,12 +130,23 @@ interface TenantFormData extends TallerTenantCreate {
             <div class="panel-header">
               <div>
                 <h3>Listado de talleres / tenants</h3>
-                <p>Busca, filtra y selecciona un tenant para revisar su aislamiento.</p>
+                <p>Busca, filtra y selecciona una red de taller para revisar su aislamiento.</p>
               </div>
               <button mat-flat-button color="primary" (click)="openCreateTenantForm()">
                 <lucide-icon [img]="plusIcon" [size]="16"></lucide-icon>
                 Nuevo taller
               </button>
+            </div>
+
+            <div class="tenant-overview">
+              <div class="overview-chip">
+                <strong>{{ filteredTenants().length }}</strong>
+                <span>redes visibles</span>
+              </div>
+              <div class="overview-chip">
+                <strong>{{ statusFilter() || 'todos' }}</strong>
+                <span>estado aplicado</span>
+              </div>
             </div>
 
             <div class="filters">
@@ -119,7 +156,7 @@ interface TenantFormData extends TallerTenantCreate {
                   matInput
                   [ngModel]="searchTerm()"
                   (ngModelChange)="onSearchChange($event)"
-                  placeholder="Nombre, NIT, correo o telÃ©fono"
+                    placeholder="Nombre, NIT, correo o telefono"
                 />
                 <lucide-icon matTextSuffix [img]="searchIcon" [size]="16"></lucide-icon>
               </mat-form-field>
@@ -145,46 +182,41 @@ interface TenantFormData extends TallerTenantCreate {
                 message="No hay talleres que coincidan con el filtro actual."
               ></app-empty-state>
             } @else {
-              <div class="tenant-table-wrapper">
-                <table mat-table [dataSource]="pagedTenants()" class="tenant-table">
-                  <ng-container matColumnDef="nombre">
-                    <th mat-header-cell *matHeaderCellDef>Taller</th>
-                    <td mat-cell *matCellDef="let tenant">
-                      <div class="tenant-name">{{ tenant.nombre }}</div>
-                      <div class="tenant-subtitle">NIT: {{ tenant.nit }}</div>
-                    </td>
-                  </ng-container>
-
-                  <ng-container matColumnDef="contacto">
-                    <th mat-header-cell *matHeaderCellDef>Contacto</th>
-                    <td mat-cell *matCellDef="let tenant">
-                      <div class="tenant-contact-main">{{ tenant.email || 'Sin correo' }}</div>
-                      <div class="tenant-subtitle">{{ tenant.telefono || 'Sin teléfono' }}</div>
-                    </td>
-                  </ng-container>
-
-                  <ng-container matColumnDef="estado">
-                    <th mat-header-cell *matHeaderCellDef>Estado</th>
-                    <td mat-cell *matCellDef="let tenant">
+              <div class="tenant-stack">
+                @for (tenant of pagedTenants(); track tenant.id_taller) {
+                  <article
+                    class="tenant-card"
+                    [class.selected]="selectedTenant()?.id_taller === tenant.id_taller"
+                    (click)="selectTenant(tenant)"
+                  >
+                    <div class="tenant-card-top">
+                      <div>
+                        <div class="tenant-name">{{ tenant.nombre }}</div>
+                        <div class="tenant-subtitle">NIT: {{ tenant.nit }}</div>
+                      </div>
                       <span class="status-pill" [class.active]="tenant.is_active">
                         {{ tenant.is_active ? 'Activo' : 'Inactivo' }}
                       </span>
-                    </td>
-                  </ng-container>
+                    </div>
 
-                  <ng-container matColumnDef="acciones">
-                    <th mat-header-cell *matHeaderCellDef>Acciones</th>
-                    <td mat-cell *matCellDef="let tenant">
-                      <div class="tenant-actions">
-                        <button mat-button color="primary" (click)="selectTenant(tenant)">Ver</button>
-                        <button mat-button (click)="openEditTenantForm(tenant)">Editar</button>
+                    <div class="tenant-card-body">
+                      <div class="tenant-info">
+                        <span>Contacto</span>
+                        <strong>{{ tenant.email || 'Sin correo' }}</strong>
+                        <small>{{ tenant.telefono || 'Sin telefono' }}</small>
                       </div>
-                    </td>
-                  </ng-container>
 
-                  <tr mat-header-row *matHeaderRowDef="tenantColumns"></tr>
-                  <tr mat-row *matRowDef="let row; columns: tenantColumns;" class="table-row"></tr>
-                </table>
+                      <div class="tenant-actions">
+                        <button mat-stroked-button color="primary" (click)="selectTenant(tenant); $event.stopPropagation()">
+                          Abrir
+                        </button>
+                        <button mat-button (click)="openEditTenantForm(tenant); $event.stopPropagation()">
+                          Editar
+                        </button>
+                      </div>
+                    </div>
+                  </article>
+                }
               </div>
 
               <mat-paginator
@@ -199,16 +231,23 @@ interface TenantFormData extends TallerTenantCreate {
 
           <section class="panel detail-panel">
             @if (!selectedTenant()) {
-              <app-empty-state
-                [icon]="usersIcon"
-                title="Selecciona un tenant"
-                message="Elige un taller de la lista para ver sus usuarios, tÃ©cnicos, incidentes, mÃ©tricas y bitÃ¡cora."
-              ></app-empty-state>
+              <div class="empty-workspace">
+                <div class="empty-badge">Sin seleccion</div>
+                <lucide-icon [img]="usersIcon" [size]="54"></lucide-icon>
+                <h3>Selecciona una red de taller</h3>
+                <p>Cuando abras un tenant veras usuarios, tecnicos, incidentes, metricas y bitacora en este espacio.</p>
+
+                <div class="empty-points">
+                  <span>Usuarios asociados por tenant</span>
+                  <span>Sucursales y tecnicos separados</span>
+                  <span>Incidentes y trazabilidad filtrados</span>
+                </div>
+              </div>
             } @else {
               <div class="detail-header">
                 <div>
                   <h3>{{ selectedTenant()?.nombre }}</h3>
-                  <p class="tenant-subtitle">NIT: {{ selectedTenant()?.nit }}</p>
+                    <p class="tenant-subtitle">NIT: {{ selectedTenant()?.nit }}</p>
                 </div>
 
                 <div class="detail-actions">
@@ -234,11 +273,11 @@ interface TenantFormData extends TallerTenantCreate {
                     <span class="summary-value">{{ selectedTenant()?.email || 'No registrado' }}</span>
                   </div>
                   <div>
-                    <span class="summary-label">TelÃ©fono</span>
+                      <span class="summary-label">Telefono</span>
                     <span class="summary-value">{{ selectedTenant()?.telefono || 'No registrado' }}</span>
                   </div>
                   <div>
-                    <span class="summary-label">DirecciÃ³n</span>
+                      <span class="summary-label">Direccion</span>
                     <span class="summary-value">{{ selectedTenant()?.direccion || 'No registrada' }}</span>
                   </div>
                   <div>
@@ -692,7 +731,7 @@ interface TenantFormData extends TallerTenantCreate {
     }
 
     .page-container {
-      padding: 1.5rem;
+      padding: 0.25rem 0 1rem;
       max-width: 1600px;
       margin: 0 auto;
     }
@@ -703,10 +742,78 @@ interface TenantFormData extends TallerTenantCreate {
       flex-wrap: wrap;
     }
 
+    .isolation-stage {
+      display: grid;
+      grid-template-columns: minmax(0, 1.45fr) minmax(300px, 0.95fr);
+      gap: 1.2rem;
+      margin-top: 1.2rem;
+      padding: 1.35rem;
+      border-radius: 30px;
+      background:
+        radial-gradient(circle at top right, rgba(14, 165, 164, 0.16), transparent 28%),
+        linear-gradient(135deg, rgba(255, 255, 255, 0.97), rgba(241, 250, 251, 0.98));
+      border: 1px solid rgba(17, 94, 89, 0.1);
+      box-shadow: 0 22px 42px rgba(30, 64, 83, 0.08);
+    }
+
+    .stage-kicker {
+      display: inline-flex;
+      padding: 0.4rem 0.72rem;
+      border-radius: 999px;
+      background: rgba(15, 118, 110, 0.08);
+      color: #0f766e;
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .stage-copy h2 {
+      margin: 0.55rem 0 0.7rem;
+      color: #10273a;
+      font-size: clamp(1.7rem, 3vw, 2.6rem);
+      line-height: 1.02;
+      letter-spacing: -0.04em;
+    }
+
+    .stage-copy p {
+      margin: 0;
+      max-width: 740px;
+      color: #53687a;
+      line-height: 1.7;
+    }
+
+    .stage-signals {
+      display: grid;
+      gap: 0.8rem;
+    }
+
+    .signal-card {
+      display: grid;
+      gap: 0.25rem;
+      padding: 1rem 1.05rem;
+      border-radius: 22px;
+      background: #103446;
+      color: white;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    }
+
+    .signal-card strong {
+      font-size: 0.86rem;
+      font-weight: 800;
+    }
+
+    .signal-card span {
+      font-size: 0.8rem;
+      line-height: 1.5;
+      color: rgba(225, 249, 246, 0.82);
+    }
+
     .action-button {
       display: inline-flex;
       align-items: center;
       gap: 0.5rem;
+      border-radius: 999px;
     }
 
     .access-denied-card {
@@ -730,12 +837,15 @@ interface TenantFormData extends TallerTenantCreate {
     }
 
     .panel {
-      background: rgba(10, 15, 25, 0.7);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 18px;
+      background:
+        radial-gradient(circle at top right, rgba(14, 165, 164, 0.08), transparent 24%),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(245, 250, 251, 0.98));
+      border: 1px solid rgba(18, 50, 70, 0.08);
+      border-radius: 28px;
       padding: 1.25rem;
       min-width: 0;
       overflow: hidden;
+      box-shadow: 0 24px 54px rgba(30, 64, 83, 0.08);
     }
 
     .panel-header,
@@ -756,7 +866,38 @@ interface TenantFormData extends TallerTenantCreate {
     .panel-header p,
     .tenant-subtitle {
       margin: 0.25rem 0 0;
-      color: var(--sm-color-text-muted);
+      color: #667b8c;
+    }
+
+    .tenant-overview {
+      display: flex;
+      gap: 0.75rem;
+      margin: 1rem 0 0.2rem;
+      flex-wrap: wrap;
+    }
+
+    .overview-chip {
+      display: grid;
+      gap: 0.08rem;
+      min-width: 132px;
+      padding: 0.8rem 0.95rem;
+      border-radius: 18px;
+      background: rgba(16, 39, 58, 0.04);
+      border: 1px solid rgba(16, 39, 58, 0.08);
+    }
+
+    .overview-chip strong {
+      color: #10273a;
+      font-size: 1.15rem;
+      font-weight: 800;
+      text-transform: capitalize;
+    }
+
+    .overview-chip span {
+      color: #6b7e8e;
+      font-size: 0.74rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
     }
 
     .filters {
@@ -764,6 +905,10 @@ interface TenantFormData extends TallerTenantCreate {
       grid-template-columns: 1fr 160px;
       gap: 0.85rem;
       margin: 1rem 0 1.25rem;
+      padding: 0.9rem;
+      border-radius: 1rem;
+      border: 1px solid rgba(18, 50, 70, 0.08);
+      background: rgba(240, 248, 249, 0.96);
     }
 
     .search-field,
@@ -781,6 +926,67 @@ interface TenantFormData extends TallerTenantCreate {
       max-width: 100%;
       overflow-x: auto;
       overflow-y: hidden;
+    }
+
+    .tenant-stack {
+      display: grid;
+      gap: 0.85rem;
+      margin-top: 1rem;
+    }
+
+    .tenant-card {
+      display: grid;
+      gap: 0.85rem;
+      padding: 1rem;
+      border-radius: 22px;
+      background: linear-gradient(135deg, rgba(248, 251, 252, 0.98), rgba(240, 248, 249, 0.98));
+      border: 1px solid rgba(18, 50, 70, 0.08);
+      cursor: pointer;
+      transition: transform 120ms ease, box-shadow 120ms ease, border-color 120ms ease;
+    }
+
+    .tenant-card:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 16px 30px rgba(30, 64, 83, 0.08);
+    }
+
+    .tenant-card.selected {
+      border-color: rgba(14, 165, 164, 0.36);
+      box-shadow: 0 18px 34px rgba(14, 165, 164, 0.12);
+      background: linear-gradient(135deg, rgba(241, 252, 251, 1), rgba(232, 248, 246, 1));
+    }
+
+    .tenant-card-top,
+    .tenant-card-body {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      align-items: flex-start;
+    }
+
+    .tenant-info {
+      display: grid;
+      gap: 0.15rem;
+    }
+
+    .tenant-info span {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #6b7e8e;
+    }
+
+    .tenant-info strong {
+      color: #173246;
+      font-size: 0.92rem;
+      font-weight: 700;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .tenant-info small {
+      color: #688092;
+      font-size: 0.82rem;
     }
 
     .tenant-table {
@@ -815,7 +1021,7 @@ interface TenantFormData extends TallerTenantCreate {
 
     .tenant-table th,
     .detail-table th {
-      color: var(--sm-color-text-muted);
+      color: #667b8c;
       text-transform: uppercase;
       font-size: 0.72rem;
       letter-spacing: 0.04em;
@@ -825,10 +1031,12 @@ interface TenantFormData extends TallerTenantCreate {
     .detail-table td {
       padding-top: 0.9rem;
       padding-bottom: 0.9rem;
+      color: #183246;
     }
 
     .tenant-name {
-      font-weight: 600;
+      font-weight: 700;
+      color: #10273a;
     }
 
     .tenant-name,
@@ -851,15 +1059,16 @@ interface TenantFormData extends TallerTenantCreate {
 
     .tenant-actions {
       display: flex;
-      flex-direction: column;
-      align-items: flex-end;
-      gap: 0.25rem;
+      align-items: center;
+      gap: 0.45rem;
+      flex-wrap: wrap;
     }
 
     .tenant-actions button {
       min-width: auto;
-      padding: 0 0.35rem;
-      line-height: 28px;
+      padding: 0 0.55rem;
+      line-height: 34px;
+      border-radius: 999px;
     }
 
     .status-pill {
@@ -869,20 +1078,85 @@ interface TenantFormData extends TallerTenantCreate {
       padding: 0.35rem 0.75rem;
       border-radius: 999px;
       font-size: 0.75rem;
-      background: rgba(255, 255, 255, 0.08);
-      color: var(--sm-color-text-soft);
+      background: rgba(16, 39, 58, 0.06);
+      color: #53687a;
+      border: 1px solid rgba(16, 39, 58, 0.08);
     }
 
     .status-pill.active {
-      background: rgba(34, 197, 94, 0.18);
-      color: #86efac;
+      background: rgba(34, 197, 94, 0.12);
+      color: #247a52;
     }
 
     .summary-card,
     .verification-card {
       margin-top: 1rem;
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid rgba(255, 255, 255, 0.06);
+      background: rgba(248, 251, 252, 0.98);
+      border: 1px solid rgba(18, 50, 70, 0.08);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9);
+    }
+
+    .empty-workspace {
+      min-height: 100%;
+      display: grid;
+      align-content: center;
+      justify-items: center;
+      gap: 0.95rem;
+      text-align: center;
+      padding: 2.25rem 1.5rem;
+      border-radius: 28px;
+      background:
+        radial-gradient(circle at top, rgba(14, 165, 164, 0.08), transparent 26%),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(244, 250, 251, 0.98));
+      border: 1px dashed rgba(18, 50, 70, 0.14);
+    }
+
+    .empty-workspace lucide-icon {
+      color: #9cb3c0;
+    }
+
+    .empty-workspace h3 {
+      margin: 0;
+      color: #173246;
+      font-size: 2rem;
+      line-height: 1.02;
+      letter-spacing: -0.04em;
+    }
+
+    .empty-workspace p {
+      margin: 0;
+      max-width: 520px;
+      color: #698193;
+      line-height: 1.75;
+    }
+
+    .empty-badge {
+      display: inline-flex;
+      padding: 0.45rem 0.8rem;
+      border-radius: 999px;
+      background: rgba(16, 39, 58, 0.06);
+      color: #0f766e;
+      font-size: 0.74rem;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .empty-points {
+      display: flex;
+      gap: 0.7rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .empty-points span {
+      display: inline-flex;
+      padding: 0.7rem 0.9rem;
+      border-radius: 999px;
+      background: rgba(16, 39, 58, 0.05);
+      color: #5c7384;
+      font-size: 0.8rem;
+      font-weight: 600;
     }
 
     .summary-grid {
@@ -897,13 +1171,14 @@ interface TenantFormData extends TallerTenantCreate {
       font-size: 0.72rem;
       text-transform: uppercase;
       letter-spacing: 0.04em;
-      color: var(--sm-color-text-muted);
+      color: #667b8c;
       margin-bottom: 0.25rem;
     }
 
     .summary-value,
     .metric-value {
-      font-weight: 600;
+      font-weight: 700;
+      color: #10273a;
     }
 
     .tab-content {
@@ -932,16 +1207,16 @@ interface TenantFormData extends TallerTenantCreate {
     .metric-card {
       padding: 1rem;
       text-align: center;
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 14px;
+      background: rgba(244, 250, 251, 0.98);
+      border: 1px solid rgba(18, 50, 70, 0.08);
+      border-radius: 18px;
     }
 
     .error-box {
       padding: 1rem;
       border-radius: 12px;
-      background: rgba(239, 68, 68, 0.12);
-      color: #fecaca;
+      background: rgba(239, 68, 68, 0.08);
+      color: #b42318;
     }
 
     .overlay {
@@ -959,8 +1234,9 @@ interface TenantFormData extends TallerTenantCreate {
       width: min(640px, 100%);
       max-height: 90vh;
       overflow: auto;
-      background: var(--sm-color-gunmetal-850);
-      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.99), rgba(245, 250, 251, 0.99));
+      border: 1px solid rgba(18, 50, 70, 0.08);
+      border-radius: 1.2rem;
     }
 
     .dialog-header,
@@ -973,7 +1249,7 @@ interface TenantFormData extends TallerTenantCreate {
     }
 
     .dialog-header {
-      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      border-bottom: 1px solid rgba(18, 50, 70, 0.08);
     }
 
     .dialog-body {
@@ -981,7 +1257,7 @@ interface TenantFormData extends TallerTenantCreate {
     }
 
     .dialog-actions {
-      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      border-top: 1px solid rgba(18, 50, 70, 0.08);
     }
 
     .full-width {
@@ -997,7 +1273,7 @@ interface TenantFormData extends TallerTenantCreate {
 
     .helper-text {
       margin: 0;
-      color: var(--sm-color-text-muted);
+      color: #667b8c;
       font-size: 0.9rem;
     }
 
@@ -1005,10 +1281,11 @@ interface TenantFormData extends TallerTenantCreate {
       margin: 0;
       white-space: pre-wrap;
       word-break: break-word;
-      color: var(--sm-color-text-main);
+      color: #163246;
     }
 
     @media (max-width: 1200px) {
+      .isolation-stage,
       .layout,
       .metrics-grid {
         grid-template-columns: 1fr;
@@ -1018,6 +1295,12 @@ interface TenantFormData extends TallerTenantCreate {
       .summary-grid,
       .two-columns {
         grid-template-columns: 1fr;
+      }
+
+      .tenant-card-top,
+      .tenant-card-body {
+        flex-direction: column;
+        align-items: flex-start;
       }
     }
   `],

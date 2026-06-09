@@ -55,14 +55,27 @@ import { MatTooltipModule } from '@angular/material/tooltip';
         </div>
       </app-page-header>
 
-      <!-- Filtros Reutilizados -->
+      <section class="history-hero sm-glass-card">
+        <div class="hero-copy">
+          <span class="hero-kicker">Bitacora operativa</span>
+          <h2>Seguimiento claro de cada asistencia cerrada por AutoAssist AI</h2>
+          <p>Consulta estados, prioridad, fechas y sucursales desde una misma vista con un tablero mas limpio y legible.</p>
+        </div>
+
+        <div class="hero-cues">
+          <span class="cue-pill">Busqueda por incidente</span>
+          <span class="cue-pill">Filtros por estado</span>
+          <span class="cue-pill">Trazabilidad por sucursal</span>
+        </div>
+      </section>
+
       <div class="filters-container sm-glass-card">
         <div class="filter-group">
           <app-search-input
             class="search-id-field"
             [(value)]="searchId"
             (valueChange)="onFilterChange()"
-            placeholder="Buscar por ID incidente...">
+            placeholder="Buscar por codigo de incidente...">
           </app-search-input>
 
           <app-select
@@ -222,14 +235,110 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     </div>
   `,
   styles: [`
-    .page-container { padding: 2rem; max-width: 1300px; margin: 0 auto; }
+    .page-container {
+      max-width: 1320px;
+      margin: 0 auto;
+      padding: 0 0 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+      animation: fadeIn 0.35s ease-out;
+    }
 
-    .refresh-btn { display: flex; align-items: center; gap: 0.5rem; border-color: rgba(var(--sm-rgb-sapphire-400), 0.3); color: var(--sm-color-sapphire-400); }
+    .history-hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.5fr) minmax(280px, 0.9fr);
+      gap: 1.2rem;
+      padding: 1.4rem;
+      border-radius: 32px;
+      background:
+        radial-gradient(circle at top right, rgba(91, 210, 199, 0.16), transparent 30%),
+        linear-gradient(135deg, rgba(255, 255, 255, 0.96), rgba(241, 250, 251, 0.98));
+      border: 1px solid rgba(70, 148, 156, 0.14);
+      box-shadow: 0 20px 44px rgba(34, 68, 84, 0.12);
+    }
 
-    /* Barra de Filtros Premium */
+    .hero-copy h2 {
+      margin: 0.35rem 0 0.6rem;
+      color: #10273a;
+      font-size: clamp(1.45rem, 2.6vw, 2.15rem);
+      line-height: 1.04;
+      font-weight: 900;
+      letter-spacing: -0.04em;
+    }
+
+    .hero-copy p {
+      margin: 0;
+      max-width: 680px;
+      color: #516579;
+      font-size: 0.96rem;
+      line-height: 1.7;
+    }
+
+    .hero-kicker {
+      display: inline-flex;
+      padding: 0.38rem 0.72rem;
+      border-radius: 999px;
+      background: rgba(16, 39, 58, 0.06);
+      color: #187d84;
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .hero-cues {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 0.8rem;
+      padding: 1rem;
+      border-radius: 28px;
+      background: linear-gradient(160deg, #0f2c3f, #153d52);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    }
+
+    .cue-pill {
+      display: inline-flex;
+      align-items: center;
+      min-height: 48px;
+      padding: 0.85rem 1rem;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.08);
+      color: #ecffff;
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+    }
+
+    .refresh-btn {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      border-color: rgba(24, 125, 132, 0.18);
+      color: #123246;
+      background: rgba(255, 255, 255, 0.82);
+      border-radius: 999px;
+      box-shadow: 0 10px 24px rgba(34, 68, 84, 0.08);
+    }
+
     .filters-container {
-      padding: 1.25rem 1.5rem; margin-bottom: 1.5rem; display: flex; justify-content: space-between; align-items: center; gap: 1.5rem;
-      .filter-group { display: flex; align-items: center; gap: 0.85rem; flex: 1; flex-wrap: wrap; }
+      padding: 1.15rem 1.2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 1rem;
+      border-radius: 28px;
+      border: 1px solid rgba(70, 148, 156, 0.12);
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.96), rgba(246, 250, 251, 0.98));
+      box-shadow: 0 18px 38px rgba(34, 68, 84, 0.08);
+      .filter-group {
+        display: flex;
+        align-items: center;
+        gap: 0.85rem;
+        flex: 1;
+        flex-wrap: wrap;
+      }
     }
 
     .search-id-field { flex: 1; max-width: 220px; }
@@ -237,44 +346,50 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     
     .date-filter-group {
       display: flex; align-items: center; gap: 0.5rem;
-      .date-label { font-size: 0.72rem; font-weight: 700; color: var(--sm-color-text-muted); text-transform: uppercase; letter-spacing: 0.05em; }
+      .date-label { font-size: 0.72rem; font-weight: 700; color: #187d84; text-transform: uppercase; letter-spacing: 0.05em; }
       .date-field { width: 155px; }
     }
 
-    .clear-btn { color: var(--sm-color-text-muted); font-size: 0.8rem; font-weight: 600; white-space: nowrap; &:hover { color: white; } }
-    .filter-actions { 
-      display: flex; align-items: center; gap: 0.5rem;
+    .clear-btn {
+      color: #5f7283;
+      font-size: 0.8rem;
+      font-weight: 700;
+      white-space: nowrap;
+      &:hover { color: #10273a; }
+    }
+
+    .filter-actions {
+      display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; justify-content: flex-end;
       button[mat-icon-button] {
-        color: var(--sm-color-text-muted);
-        &:hover { color: white; background: rgba(255, 255, 255, 0.05); }
+        color: #5f7283;
+        &:hover { color: #10273a; background: rgba(16, 39, 58, 0.06); }
       }
     }
 
     .branch-badge {
-      display: inline-flex; align-items: center; gap: 0.35rem; font-size: 0.78rem; font-weight: 600; color: var(--sm-color-sapphire-400);
-      background: rgba(var(--sm-rgb-sapphire-400), 0.12); padding: 0.35rem 0.75rem; border-radius: 20px; border: 1px solid rgba(var(--sm-rgb-sapphire-400), 0.2);
+      display: inline-flex; align-items: center; gap: 0.35rem; font-size: 0.78rem; font-weight: 700; color: #13425b;
+      background: rgba(91, 210, 199, 0.14); padding: 0.45rem 0.85rem; border-radius: 999px; border: 1px solid rgba(91, 210, 199, 0.24);
     }
 
     .branch-tag {
-      font-size: 0.72rem; font-weight: 600; padding: 0.2rem 0.6rem; border-radius: 4px;
-      background: rgba(var(--sm-rgb-sapphire-400), 0.1); color: var(--sm-color-sapphire-300);
-      border: 1px solid rgba(var(--sm-rgb-sapphire-400), 0.2);
+      font-size: 0.72rem; font-weight: 700; padding: 0.28rem 0.68rem; border-radius: 999px;
+      background: rgba(19, 66, 91, 0.08); color: #13425b;
+      border: 1px solid rgba(19, 66, 91, 0.12);
     }
 
-    /* Tabla */
     .table-card { border: none; padding: 0; }
-    .table-header { display: flex; align-items: center; gap: 0.75rem; padding: 1.25rem 1.5rem; border-bottom: 1px solid rgba(255,255,255,0.05); color: var(--sm-color-sapphire-400); font-size: 0.85rem; font-weight: 600;
-      .count-badge { margin-left: auto; background: rgba(var(--sm-rgb-sapphire-400), 0.15); color: var(--sm-color-sapphire-300); padding: 0.15rem 0.6rem; border-radius: 20px; font-size: 0.75rem; }
+    .table-header { display: flex; align-items: center; gap: 0.75rem; padding: 1.2rem 1.3rem; border-bottom: 1px solid rgba(19,66,91,0.08); color: #123246; font-size: 0.82rem; font-weight: 800; letter-spacing: 0.04em; text-transform: uppercase;
+      .count-badge { margin-left: auto; background: rgba(91, 210, 199, 0.16); color: #0f5b63; padding: 0.25rem 0.7rem; border-radius: 999px; font-size: 0.75rem; }
     }
     .modern-table { width: 100%; background: transparent;
-      th { color: var(--sm-color-text-muted); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em; padding: 0.75rem 1rem; border-bottom: 1px solid rgba(255,255,255,0.05); }
-      td { padding: 0.75rem 1rem; border-bottom: 1px solid rgba(255,255,255,0.03); }
+      th { color: #6c7f8e; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em; padding: 0.82rem 1rem; border-bottom: 1px solid rgba(19,66,91,0.08); }
+      td { padding: 0.85rem 1rem; border-bottom: 1px solid rgba(19,66,91,0.05); color: #163246; }
     }
-    .table-row:hover td { background: rgba(var(--sm-rgb-sapphire-500), 0.05); }
+    .table-row:hover td { background: rgba(91, 210, 199, 0.08); }
 
-    .mono-id { font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; color: var(--sm-color-sapphire-400); font-weight: 600; }
-    .date-text { font-size: 0.82rem; color: var(--sm-color-text-soft); }
-    .truncate-text { margin: 0; max-width: 250px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 0.82rem; color: var(--sm-color-text-soft); }
+    .mono-id { font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; color: #0f5b63; font-weight: 700; }
+    .date-text { font-size: 0.82rem; color: #4c6274; }
+    .truncate-text { margin: 0; max-width: 250px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 0.82rem; color: #4c6274; }
 
     .status-tag { font-size: 0.68rem; font-weight: 700; padding: 0.2rem 0.55rem; border-radius: 4px; letter-spacing: 0.03em;
       &[data-status="COMPLETADO"] { background: rgba(46,204,113,0.12); color: #2ecc71; }
@@ -284,7 +399,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
       &[data-status="EN_PROGRESO"]{ background: rgba(241,196,15,0.12); color: #f1c40f; }
       &[data-status="EN_ATENCION"] { background: rgba(241,196,15,0.12); color: #f1c40f; }
       &[data-status="CANCELADO"]  { background: rgba(231,76,60,0.12);  color: #e74c3c; }
-      &[data-status="PENDIENTE"]  { background: rgba(var(--sm-rgb-slate-400),0.1); color: var(--sm-color-text-muted); }
+      &[data-status="PENDIENTE"]  { background: rgba(108,127,142,0.12); color: #6c7f8e; }
     }
 
     .priority-tag { font-size: 0.68rem; font-weight: 800; padding: 0.2rem 0.55rem; border-radius: 4px;
@@ -293,12 +408,90 @@ import { MatTooltipModule } from '@angular/material/tooltip';
       &[data-priority="BAJA"]  { background: rgba(46,204,113,0.12); color: #2ecc71; }
     }
 
-    .assigned-badge   { font-size: 0.7rem; padding: 0.15rem 0.5rem; border-radius: 4px; background: rgba(46,204,113,0.1); color: #2ecc71; font-weight: 600; }
-    .unassigned-badge { font-size: 0.7rem; padding: 0.15rem 0.5rem; border-radius: 4px; background: rgba(var(--sm-rgb-slate-400),0.1); color: var(--sm-color-text-muted); }
+    .assigned-badge   { font-size: 0.7rem; padding: 0.15rem 0.5rem; border-radius: 4px; background: rgba(46,204,113,0.1); color: #248a57; font-weight: 700; }
+    .unassigned-badge { font-size: 0.7rem; padding: 0.15rem 0.5rem; border-radius: 4px; background: rgba(108,127,142,0.1); color: #6c7f8e; font-weight: 700; }
 
-    .error-state { padding: 2rem; text-align: center; color: #e74c3c; }
+    .error-state { padding: 2rem; text-align: center; color: #c0392b; background: rgba(255, 255, 255, 0.96); border: 1px solid rgba(192, 57, 43, 0.12); border-radius: 24px; }
 
     mat-paginator { background: transparent; }
+
+    @media (max-width: 980px) {
+      .history-hero {
+        grid-template-columns: 1fr;
+      }
+
+      .filters-container {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .filter-actions {
+        justify-content: flex-start;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .page-container {
+        gap: 1rem;
+        padding-bottom: 1.5rem;
+      }
+
+      .history-hero {
+        padding: 1rem;
+        border-radius: 24px;
+      }
+
+      .filters-container {
+        padding: 1rem;
+        border-radius: 20px;
+      }
+
+      .filter-group {
+        flex-direction: column;
+        align-items: stretch !important;
+      }
+
+      .search-id-field,
+      .sm-select,
+      .date-filter-group,
+      .date-filter-group .date-field {
+        width: 100%;
+        max-width: none;
+      }
+
+      .date-filter-group {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .filter-actions {
+        width: 100%;
+      }
+
+      .table-card {
+        overflow: hidden;
+      }
+
+      .table-header {
+        padding: 1rem;
+        flex-wrap: wrap;
+      }
+
+      .modern-table {
+        display: block;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+      }
+
+      .truncate-text {
+        max-width: 180px;
+      }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
 
     @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
   `]

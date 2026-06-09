@@ -1,10 +1,10 @@
 // Mixins para diseño premium
 
 @mixin glass-card {
-  background: rgba(var(--sm-rgb-slate-400), 0.03);
+  background: rgba(var(--sm-rgb-white), 0.82);
   backdrop-filter: blur(10px);
-  border: 1px solid rgba(var(--sm-rgb-slate-400), 0.1);
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(var(--sm-rgb-slate-400), 0.16);
+  box-shadow: 0 14px 34px 0 rgba(15, 23, 42, 0.1);
 }
 
 @mixin flex-center {
@@ -16,7 +16,7 @@
 @mixin metallic-gradient {
   background: radial-gradient(
     circle at 50% -25%,
-    var(--sm-color-gunmetal-800) 0%,
+    #ffffff 0%,
     var(--sm-color-gunmetal-950) 75%
   );
 }
@@ -39,10 +39,10 @@
     background: transparent;
   }
   &::-webkit-scrollbar-thumb {
-    background: var(--sm-color-gunmetal-800);
+    background: #d6b898;
     border-radius: 10px;
     &:hover {
-      background: var(--sm-color-gunmetal-825);
+      background: #cfa57c;
     }
   }
 }

@@ -190,6 +190,7 @@ import { QuotationInboxCardComponent } from '../../components/quotation-inbox-ca
       display: flex;
       align-items: center;
       gap: 0.5rem;
+      flex-wrap: wrap;
     }
 
     .stats-row {
@@ -199,26 +200,30 @@ import { QuotationInboxCardComponent } from '../../components/quotation-inbox-ca
     }
 
     .stat-card {
-      background: rgba(25, 30, 45, 0.45);
-      border: 1px solid rgba(255, 255, 255, 0.05);
-      border-radius: 16px;
+      background:
+        linear-gradient(180deg, rgba(16, 19, 28, 0.94), rgba(10, 13, 20, 0.98));
+      border: 1px solid rgba(255, 149, 36, 0.14);
+      border-radius: 22px;
       padding: 1rem 1.1rem;
       display: flex;
       flex-direction: column;
-      gap: 0.25rem;
+      gap: 0.32rem;
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.03),
+        0 18px 38px rgba(0, 0, 0, 0.22);
     }
 
     .stat-value {
       color: #ffffff;
-      font-size: 1.6rem;
+      font-size: clamp(1.45rem, 1.1rem + 0.8vw, 1.9rem);
       font-weight: 800;
     }
 
     .stat-label {
-      color: var(--sm-color-text-muted, #94a3b8);
-      font-size: 0.78rem;
+      color: var(--sm-color-amber-200);
+      font-size: 0.76rem;
       text-transform: uppercase;
-      letter-spacing: 0.03em;
+      letter-spacing: 0.05em;
     }
 
     .filters-bar {
@@ -227,6 +232,7 @@ import { QuotationInboxCardComponent } from '../../components/quotation-inbox-ca
       gap: 1rem;
       align-items: center;
       padding: 1rem;
+      border-radius: 22px;
     }
 
     .inbox-grid {
@@ -236,12 +242,16 @@ import { QuotationInboxCardComponent } from '../../components/quotation-inbox-ca
     }
 
     .reply-panel {
-      border-radius: 18px;
-      padding: 1.1rem;
+      border-radius: 24px;
+      padding: 1.15rem;
       display: flex;
       flex-direction: column;
       gap: 1rem;
       margin-top: 0.25rem;
+      border: 1px solid rgba(255, 149, 36, 0.14);
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.03),
+        0 22px 50px rgba(0, 0, 0, 0.22);
     }
 
     .panel-header {
@@ -254,13 +264,15 @@ import { QuotationInboxCardComponent } from '../../components/quotation-inbox-ca
     .panel-header h3 {
       margin: 0;
       color: #fff;
-      font-size: 1rem;
+      font-size: 1.02rem;
+      font-weight: 800;
     }
 
     .panel-header p {
       margin: 0.3rem 0 0;
       color: var(--sm-color-text-muted, #94a3b8);
       font-size: 0.86rem;
+      line-height: 1.45;
     }
 
     .reply-summary {
@@ -270,26 +282,28 @@ import { QuotationInboxCardComponent } from '../../components/quotation-inbox-ca
     }
 
     .summary-item {
-      padding: 0.75rem;
-      border-radius: 12px;
+      padding: 0.85rem;
+      border-radius: 16px;
       background: rgba(255, 255, 255, 0.03);
       border: 1px solid rgba(255, 255, 255, 0.06);
       display: flex;
       flex-direction: column;
-      gap: 0.25rem;
+      gap: 0.28rem;
     }
 
     .summary-item .label {
-      color: var(--sm-color-text-muted, #94a3b8);
+      color: var(--sm-color-amber-300);
       font-size: 0.72rem;
       text-transform: uppercase;
+      letter-spacing: 0.04em;
     }
 
     .summary-item .value {
       color: #ffffff;
-      font-size: 0.84rem;
+      font-size: 0.85rem;
       font-weight: 600;
       word-break: break-word;
+      line-height: 1.45;
     }
 
     .reply-grid {
@@ -309,6 +323,7 @@ import { QuotationInboxCardComponent } from '../../components/quotation-inbox-ca
       gap: 1rem;
       border-top: 1px solid rgba(255, 255, 255, 0.06);
       padding-top: 1rem;
+      flex-wrap: wrap;
     }
 
     .total-box {
@@ -318,15 +333,21 @@ import { QuotationInboxCardComponent } from '../../components/quotation-inbox-ca
     }
 
     .total-box .label {
-      color: var(--sm-color-text-muted, #94a3b8);
+      color: var(--sm-color-amber-300);
       font-size: 0.72rem;
       text-transform: uppercase;
+      letter-spacing: 0.04em;
     }
 
     .total-value {
       color: #ffffff;
-      font-size: 1.5rem;
+      font-size: clamp(1.35rem, 1.1rem + 0.6vw, 1.7rem);
       font-weight: 800;
+    }
+
+    .submit-btn {
+      min-height: 44px;
+      padding-inline: 1.2rem;
     }
 
     .submit-btn lucide-icon {
@@ -339,6 +360,64 @@ import { QuotationInboxCardComponent } from '../../components/quotation-inbox-ca
 
     @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+    @media (max-width: 1100px) {
+      .stats-row,
+      .reply-summary,
+      .reply-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .inbox-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .page-container {
+        gap: 1rem;
+        padding-bottom: 1.5rem;
+      }
+
+      .header-actions,
+      .header-actions button {
+        width: 100%;
+      }
+
+      .stats-row,
+      .reply-summary,
+      .reply-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .filters-bar {
+        grid-template-columns: 1fr;
+        gap: 0.8rem;
+        padding: 0.95rem;
+      }
+
+      .reply-panel {
+        padding: 1rem;
+        border-radius: 20px;
+      }
+
+      .panel-header {
+        align-items: flex-start;
+      }
+
+      .panel-footer {
+        align-items: stretch;
+      }
+
+      .total-box,
+      .submit-btn {
+        width: 100%;
+      }
+
+      .submit-btn {
+        justify-content: center;
+      }
+    }
   `],
 })
 export class QuotationsDashboardPage {

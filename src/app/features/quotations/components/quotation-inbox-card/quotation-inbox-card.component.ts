@@ -108,20 +108,26 @@ import { QuotationWorkshopInboxItemResponse } from '../../models/quotation.model
   `,
   styles: [`
     .quotation-card {
-      background: rgba(18, 20, 28, 0.72);
-      border: 1px solid rgba(255, 255, 255, 0.06);
+      background:
+        linear-gradient(180deg, rgba(14, 17, 24, 0.95), rgba(9, 12, 19, 0.98));
+      border: 1px solid rgba(255, 149, 32, 0.12);
       color: var(--sm-color-text-main, #e2e8f0);
-      border-radius: 18px;
+      border-radius: 22px;
       padding: 1rem;
       display: flex;
       flex-direction: column;
       gap: 0.85rem;
       transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.03),
+        0 18px 38px rgba(0, 0, 0, 0.2);
     }
 
     .quotation-card.selected {
-      border-color: rgba(59, 130, 246, 0.45);
-      box-shadow: 0 0 0 1px rgba(59, 130, 246, 0.1), 0 16px 32px rgba(0, 0, 0, 0.2);
+      border-color: rgba(255, 153, 41, 0.45);
+      box-shadow:
+        0 0 0 1px rgba(255, 153, 41, 0.12),
+        0 18px 38px rgba(0, 0, 0, 0.26);
     }
 
     .card-top {
@@ -129,6 +135,7 @@ import { QuotationWorkshopInboxItemResponse } from '../../models/quotation.model
       align-items: center;
       justify-content: space-between;
       gap: 0.75rem;
+      flex-wrap: wrap;
     }
 
     .status-chip {
@@ -144,15 +151,15 @@ import { QuotationWorkshopInboxItemResponse } from '../../models/quotation.model
       text-transform: uppercase;
     }
 
-    .status-chip.pendiente { background: rgba(59, 130, 246, 0.12); color: #60a5fa; border-color: rgba(59, 130, 246, 0.25); }
-    .status-chip.enviada { background: rgba(245, 158, 11, 0.12); color: #f59e0b; border-color: rgba(245, 158, 11, 0.25); }
+    .status-chip.pendiente { background: rgba(255, 214, 102, 0.09); color: #ffd977; border-color: rgba(255, 214, 102, 0.16); }
+    .status-chip.enviada { background: rgba(245, 158, 11, 0.14); color: #ffb74d; border-color: rgba(245, 158, 11, 0.24); }
     .status-chip.rechazada { background: rgba(239, 68, 68, 0.12); color: #f87171; border-color: rgba(239, 68, 68, 0.25); }
     .status-chip.aceptada { background: rgba(34, 197, 94, 0.12); color: #4ade80; border-color: rgba(34, 197, 94, 0.25); }
 
     .date-label { color: var(--sm-color-text-muted, #94a3b8); font-size: 0.78rem; }
 
-    .card-title h3 { margin: 0; font-size: 1rem; color: #ffffff; }
-    .card-title p { margin: 0.25rem 0 0; color: var(--sm-color-text-soft, #94a3b8); font-size: 0.86rem; line-height: 1.4; }
+    .card-title h3 { margin: 0; font-size: 1rem; color: #ffffff; line-height: 1.4; }
+    .card-title p { margin: 0.25rem 0 0; color: var(--sm-color-text-soft, #94a3b8); font-size: 0.86rem; line-height: 1.45; }
 
     .meta-grid {
       display: grid;
@@ -162,11 +169,15 @@ import { QuotationWorkshopInboxItemResponse } from '../../models/quotation.model
 
     .meta-item {
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       gap: 0.45rem;
       font-size: 0.8rem;
       color: var(--sm-color-text-soft, #cbd5e1);
       min-width: 0;
+      padding: 0.7rem 0.8rem;
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.05);
     }
 
     .chips-row, .compatible-list {
@@ -180,7 +191,7 @@ import { QuotationWorkshopInboxItemResponse } from '../../models/quotation.model
       border-radius: 999px;
       font-size: 0.72rem;
       font-weight: 600;
-      border: 1px solid rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 149, 32, 0.1);
       background: rgba(255, 255, 255, 0.03);
       color: var(--sm-color-text-soft, #cbd5e1);
     }
@@ -199,6 +210,22 @@ import { QuotationWorkshopInboxItemResponse } from '../../models/quotation.model
 
     .actions lucide-icon {
       margin-right: 0.35rem;
+    }
+
+    @media (max-width: 720px) {
+      .quotation-card {
+        padding: 0.95rem;
+        border-radius: 20px;
+      }
+
+      .meta-grid,
+      .actions {
+        grid-template-columns: 1fr;
+      }
+
+      .actions button {
+        min-height: 42px;
+      }
     }
   `]
 })

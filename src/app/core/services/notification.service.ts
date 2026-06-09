@@ -37,11 +37,15 @@ export class NotificationService {
   private connect(token: string) {
     if (this.socket || !this.isBrowser) return;
 
-    const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
     const url = new URL(environment.apiUrl);
+    const protocol = url.protocol === 'https:' ? 'wss:' : 'ws:';
     const host = url.host;
     
     this.socket = new WebSocket(`${protocol}//${host}/ws?token=${token}`);
+
+    this.socket.onerror = () => {
+      console.warn('WebSocket connection failed:', `${protocol}//${host}/ws`);
+    };
 
     this.socket.onmessage = (event) => {
       try {

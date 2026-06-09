@@ -333,16 +333,25 @@ import { MatSelectModule } from '@angular/material/select';
     </div>
   `,
   styles: [`
-    .page-container { padding: 2rem; max-width: 1400px; margin: 0 auto; animation: fadeIn 0.4s ease-out; }
+    .page-container {
+      padding: 0.25rem 0 1rem;
+      max-width: 1440px;
+      margin: 0 auto;
+      animation: fadeIn 0.4s ease-out;
+    }
 
     /* Formulario */
     .form-grid { 
       margin-bottom: 2.5rem; 
       padding: 2rem 2.25rem; 
       border-radius: 16px !important; 
-      background: rgba(255, 255, 255, 0.02) !important;
-      border: 1px solid rgba(255, 255, 255, 0.05) !important;
+      background:
+        radial-gradient(circle at 100% 0%, rgb(var(--sm-rgb-orange-500) / 0.12), transparent 24%),
+        linear-gradient(180deg, rgb(var(--sm-rgb-white) / 0.02), rgb(var(--sm-rgb-white) / 0.01)),
+        var(--sm-color-gunmetal-900) !important;
+      border: 1px solid rgb(var(--sm-rgb-orange-500) / 0.14) !important;
       position: relative;
+      box-shadow: 0 24px 60px -40px rgb(var(--sm-rgb-black) / 0.96);
     }
     
     .form-header { 
@@ -462,8 +471,8 @@ import { MatSelectModule } from '@angular/material/select';
     .google-map-wrapper {
       border-radius: 12px;
       overflow: hidden;
-      border: 1px solid rgba(255, 255, 255, 0.05);
-      background: rgba(0, 0, 0, 0.15);
+      border: 1px solid rgb(var(--sm-rgb-orange-500) / 0.12);
+      background: rgb(var(--sm-rgb-black) / 0.18);
     }
     
     .map-loading-placeholder {
@@ -586,7 +595,7 @@ import { MatSelectModule } from '@angular/material/select';
     .no-admins-warning { padding: 1.5rem; text-align: center; color: #f59e0b; font-size: 0.85rem; }
 
     /* Grid de tarjetas */
-    .branches-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 1.5rem; margin-top: 1rem; }
+    .branches-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 1.25rem; margin-top: 0.5rem; }
     .branch-card { 
       padding: 1.75rem 2rem; 
       border-radius: 16px !important; 
@@ -594,12 +603,15 @@ import { MatSelectModule } from '@angular/material/select';
       flex-direction: column; 
       gap: 1.25rem; 
       transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
-      background: rgba(255, 255, 255, 0.02) !important;
-      border: 1px solid rgba(255, 255, 255, 0.05) !important;
+      background:
+        radial-gradient(circle at 100% 0%, rgb(var(--sm-rgb-orange-500) / 0.1), transparent 24%),
+        linear-gradient(180deg, rgb(var(--sm-rgb-white) / 0.02), rgb(var(--sm-rgb-white) / 0.01)),
+        var(--sm-color-gunmetal-900) !important;
+      border: 1px solid rgb(var(--sm-rgb-orange-500) / 0.12) !important;
       
       &:hover { 
         transform: translateY(-3px); 
-        border-color: rgba(59, 130, 246, 0.2) !important;
+        border-color: rgb(var(--sm-rgb-orange-500) / 0.22) !important;
         box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3) !important;
       }
       &.inactive { 
@@ -724,8 +736,8 @@ import { MatSelectModule } from '@angular/material/select';
         min-width: 32px;
         padding: 0;
         border-radius: 8px;
-        background: rgba(255, 255, 255, 0.02);
-        border: 1px solid rgba(255, 255, 255, 0.05);
+        background: rgb(var(--sm-rgb-black) / 0.16);
+        border: 1px solid rgb(var(--sm-rgb-orange-500) / 0.12);
         color: var(--sm-color-text-muted);
         transition: all 0.2s ease;
         display: inline-flex;
@@ -734,8 +746,8 @@ import { MatSelectModule } from '@angular/material/select';
         
         &:hover { 
           color: white; 
-          background: rgba(255, 255, 255, 0.08); 
-          border-color: rgba(255, 255, 255, 0.1);
+          background: rgb(var(--sm-rgb-orange-500) / 0.12); 
+          border-color: rgb(var(--sm-rgb-orange-500) / 0.18);
         }
         
         &.edit:hover {

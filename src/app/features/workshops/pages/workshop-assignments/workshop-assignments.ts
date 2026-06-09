@@ -405,9 +405,9 @@ import { IncidentResponse, TecnicoResponse } from '@core/models/workshops.model'
       animation: fadeIn 0.4s ease-out;
       display: flex;
       flex-direction: column;
-      gap: 1.5rem;
+      gap: 1.25rem;
       width: 100%;
-      padding-bottom: 3rem;
+      padding-bottom: 2rem;
     }
 
 
@@ -415,12 +415,15 @@ import { IncidentResponse, TecnicoResponse } from '@core/models/workshops.model'
     .stats-bar {
       display: grid;
       grid-template-columns: repeat(6, 1fr);
-      gap: 1rem;
+      gap: 0.85rem;
       width: 100%;
     }
     .stat-card {
-      background: rgba(25, 30, 45, 0.45);
-      border: 1px solid rgba(255, 255, 255, 0.05);
+      background:
+        radial-gradient(circle at 100% 0%, rgb(var(--sm-rgb-orange-500) / 0.12), transparent 24%),
+        linear-gradient(180deg, rgb(var(--sm-rgb-white) / 0.02), rgb(var(--sm-rgb-white) / 0.01)),
+        rgba(25, 30, 45, 0.55);
+      border: 1px solid rgb(var(--sm-rgb-orange-500) / 0.12);
       backdrop-filter: blur(10px);
       padding: 1.25rem;
       border-radius: 12px;
@@ -472,10 +475,10 @@ import { IncidentResponse, TecnicoResponse } from '@core/models/workshops.model'
         display: flex;
         align-items: center;
       }
-      .search-input {
+    .search-input {
         width: 100%;
-        background: rgba(25, 30, 45, 0.4);
-        border: 1px solid rgba(255, 255, 255, 0.08);
+        background: rgb(var(--sm-rgb-black) / 0.18);
+        border: 1px solid rgb(var(--sm-rgb-orange-500) / 0.12);
         border-radius: 24px;
         padding: 0.75rem 1rem 0.75rem 2.5rem;
         color: #ffffff;
@@ -483,8 +486,8 @@ import { IncidentResponse, TecnicoResponse } from '@core/models/workshops.model'
         outline: none;
         transition: border-color 0.25s, box-shadow 0.25s;
         &:focus {
-          border-color: rgba(59, 130, 246, 0.5);
-          box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.15);
+          border-color: rgb(var(--sm-rgb-orange-500) / 0.38);
+          box-shadow: 0 0 0 2px rgb(var(--sm-rgb-orange-500) / 0.15);
         }
         &::placeholder {
           color: var(--sm-color-text-muted, #7f8c8d);
@@ -497,8 +500,8 @@ import { IncidentResponse, TecnicoResponse } from '@core/models/workshops.model'
       align-items: center;
     }
     .filter-chip {
-      background: rgba(25, 30, 45, 0.4);
-      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgb(var(--sm-rgb-black) / 0.18);
+      border: 1px solid rgb(var(--sm-rgb-orange-500) / 0.12);
       color: var(--sm-color-text-soft, #bdc3c7);
       padding: 0.5rem 1.1rem;
       border-radius: 20px;
@@ -521,9 +524,9 @@ import { IncidentResponse, TecnicoResponse } from '@core/models/workshops.model'
         color: #ffffff;
       }
       &.active {
-        background: rgba(59, 130, 246, 0.1);
-        border-color: #3b82f6;
-        color: #3b82f6;
+        background: rgb(var(--sm-rgb-orange-500) / 0.12);
+        border-color: rgb(var(--sm-rgb-orange-500) / 0.3);
+        color: var(--sm-color-orange-100);
       }
     }
 
@@ -531,11 +534,11 @@ import { IncidentResponse, TecnicoResponse } from '@core/models/workshops.model'
     .kanban-board {
       display: grid;
       grid-template-columns: repeat(5, 1fr);
-      gap: 1.25rem;
+      gap: 1rem;
       padding-bottom: 1.5rem;
     }
     .kanban-column {
-      display: flex; flex-direction: column; background: rgba(18, 20, 28, 0.35); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 12px; overflow: hidden;
+      display: flex; flex-direction: column; background: linear-gradient(180deg, rgb(var(--sm-rgb-white) / 0.02), rgb(var(--sm-rgb-white) / 0.01)), rgba(18, 20, 28, 0.45); border: 1px solid rgb(var(--sm-rgb-orange-500) / 0.1); border-radius: 14px; overflow: hidden;
       
       /* Accent Column Headers */
       &.col-nuevas { border-top: 4px solid #ff5b5b; .dot-indicator { background: #ff5b5b; } }
@@ -587,8 +590,10 @@ import { IncidentResponse, TecnicoResponse } from '@core/models/workshops.model'
 
     /* Incident Cards styling */
     .incident-card {
-      background: rgba(25, 30, 45, 0.55);
-      border: 1px solid rgba(255, 255, 255, 0.06);
+      background:
+        radial-gradient(circle at 100% 0%, rgb(var(--sm-rgb-orange-500) / 0.08), transparent 22%),
+        rgba(25, 30, 45, 0.62);
+      border: 1px solid rgb(var(--sm-rgb-orange-500) / 0.1);
       border-radius: 10px;
       padding: 1.25rem;
       display: flex;
@@ -601,7 +606,7 @@ import { IncidentResponse, TecnicoResponse } from '@core/models/workshops.model'
         transform: translateY(-2px);
         box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
         background: rgba(25, 30, 45, 0.75);
-        border-color: rgba(255, 255, 255, 0.12);
+        border-color: rgb(var(--sm-rgb-orange-500) / 0.22);
       }
       &.completed-card {
         opacity: 0.65;
@@ -736,7 +741,7 @@ import { IncidentResponse, TecnicoResponse } from '@core/models/workshops.model'
     .col-completados .incident-card { border-left: 4px solid #2ecc71; }
 
     .category-tag {
-      background: rgba(255, 255, 255, 0.05);
+      background: rgb(var(--sm-rgb-orange-500) / 0.08);
       color: #cbd5e1;
       font-size: 0.78rem;
       font-weight: 600;
@@ -752,7 +757,7 @@ import { IncidentResponse, TecnicoResponse } from '@core/models/workshops.model'
       width: 28px;
       height: 28px;
       border-radius: 50%;
-      background: #3b82f6; /* Blue background */
+      background: linear-gradient(145deg, var(--sm-color-orange-500), var(--sm-color-orange-600));
       color: #ffffff;
       font-weight: 700;
       font-size: 0.78rem;

@@ -1,24 +1,28 @@
 .details-card {
-  padding: 1rem;
+  padding: 1.2rem;
+  position: relative;
 }
 
 .card-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 1.5rem;
+  gap: 0.85rem;
+  margin-bottom: 1.25rem;
   
   h3 {
     margin: 0;
     color: var(--sm-color-text-title);
+    font-size: 1.05rem;
+    font-weight: 800;
   }
 }
 
 .details-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 1rem;
-  margin-bottom: 1.5rem;
+  gap: 0.95rem;
+  margin-bottom: 1.35rem;
 
   @media (max-width: 600px) {
     grid-template-columns: 1fr;
@@ -28,23 +32,31 @@
 .detail-item {
   display: flex;
   flex-direction: column;
+  gap: 0.28rem;
+  padding: 0.85rem 0.95rem;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0.02));
   
   .label {
     font-size: 0.75rem;
-    color: var(--sm-color-text-soft);
+    color: var(--sm-color-amber-300);
     text-transform: uppercase;
-    font-weight: 600;
+    font-weight: 700;
+    letter-spacing: 0.04em;
   }
   
   .value {
     color: var(--sm-color-text-main);
-    font-weight: 500;
+    font-weight: 600;
+    line-height: 1.45;
   }
 
   .mono-id {
     font-family: 'JetBrains Mono', monospace;
     font-size: 0.82rem;
-    color: var(--sm-color-sapphire-400);
+    color: #ffd089;
     word-break: break-all;
   }
 
@@ -67,11 +79,36 @@
     margin: 0 0 0.5rem;
     color: var(--sm-color-text-title);
     font-size: 0.9rem;
+    font-weight: 700;
   }
   
   p {
     margin: 0;
     color: var(--sm-color-text-soft);
     line-height: 1.5;
+    padding: 1rem 1.05rem;
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+  }
+}
+
+@media (max-width: 720px) {
+  .details-card {
+    padding: 1rem;
+  }
+
+  .card-header {
+    align-items: flex-start;
+    flex-direction: column;
+    margin-bottom: 1rem;
+  }
+
+  .detail-item {
+    padding: 0.8rem 0.85rem;
+  }
+
+  .description-section p {
+    padding: 0.9rem;
   }
 }

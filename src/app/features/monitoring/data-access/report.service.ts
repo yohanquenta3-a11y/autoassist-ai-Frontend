@@ -17,7 +17,7 @@ export class ReportService {
   constructor() { }
 
   /**
-   * Envía una solicitud al motor de IA en n8n para generar un reporte basado en lenguaje natural.
+   * EnvÃ­a una solicitud al motor de IA en n8n para generar un reporte basado en lenguaje natural.
    */
   generateAiReport(chatInput: string, sessionId: string, user?: User | null): Observable<HttpResponse<Blob>> {
     const normalizedPrompt = /excel/i.test(chatInput)
@@ -37,52 +37,49 @@ export class ReportService {
    * Genera un reporte en PDF con una tabla estilizada.
    */
   exportToPDF(title: string, columns: string[], data: unknown[][], filename: string) {
-    const doc = new jsPDF('l', 'mm', 'a4'); 
-    
-    // Usamos un array de números para el color primario
+    const doc = new jsPDF('l', 'mm', 'a4');
+
     const primaryColor: [number, number, number] = [15, 23, 42];
-    
+
     doc.setFontSize(22);
     doc.setTextColor(primaryColor[0], primaryColor[1], primaryColor[2]);
-    doc.text('SMART MECHANIC PLATFORM', 14, 20);
-    
+    doc.text('AUTOASSIST AI PLATFORM', 14, 20);
+
     doc.setFontSize(14);
     doc.setTextColor(100);
     doc.text(title.toUpperCase(), 14, 30);
-    
+
     doc.setFontSize(10);
-    doc.text(`Fecha de Emisión: ${new Date().toLocaleString('es-BO')}`, 14, 38);
-    doc.text('Sistema de Gestión de Auxilios Mecánicos', 14, 44);
+    doc.text(`Fecha de EmisiÃ³n: ${new Date().toLocaleString('es-BO')}`, 14, 38);
+    doc.text('Sistema de operaciones y asistencia vehicular', 14, 44);
 
     doc.setDrawColor(primaryColor[0], primaryColor[1], primaryColor[2]);
     doc.setLineWidth(0.5);
     doc.line(14, 48, 283, 48);
 
-    // Llamamos a autoTable con casting a any para ignorar errores de definición de jspdf-autotable
     (autoTable as any)(doc, {
       head: [columns],
       body: data,
       startY: 55,
       theme: 'grid',
-      headStyles: { 
-        fillColor: primaryColor, 
-        textColor: [255, 255, 255], 
-        fontSize: 9, 
+      headStyles: {
+        fillColor: primaryColor,
+        textColor: [255, 255, 255],
+        fontSize: 9,
         fontStyle: 'bold',
         halign: 'center'
       },
       bodyStyles: { fontSize: 8, textColor: [50, 50, 50] },
       alternateRowStyles: { fillColor: [245, 247, 250] },
       margin: { top: 55 },
-      didDrawPage: (dataArg: unknown) => {
+      didDrawPage: (_dataArg: unknown) => {
         doc.setFontSize(8);
         doc.setTextColor(150);
-        // Acceso ultra-seguro al número de páginas (usando cast controlado)
         const internal = (doc as unknown as { internal: { getNumberOfPages?: () => number } }).internal;
         const totalPages = (internal && internal.getNumberOfPages) ? internal.getNumberOfPages() : 1;
-        const str = `Página ${totalPages}`;
+        const str = `PÃ¡gina ${totalPages}`;
         doc.text(str, 283 - 20, 200);
-        doc.text('© 2026 Smart Mechanic - Reporte Confidencial', 14, 200);
+        doc.text('Â© 2026 AutoAssist AI - Reporte Confidencial', 14, 200);
       }
     });
 
@@ -122,7 +119,7 @@ export class ReportService {
       <body>
         <div class="sheet">
           <h1>${this.escapeHtml(title)}</h1>
-          <div class="meta">Fecha de emisión: ${new Date().toLocaleString('es-BO')}</div>
+          <div class="meta">Fecha de emisiÃ³n: ${new Date().toLocaleString('es-BO')}</div>
           <table>
             <thead>
               <tr>${columns.map(column => `<th>${this.escapeHtml(column)}</th>`).join('')}</tr>

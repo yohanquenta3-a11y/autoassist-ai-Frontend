@@ -26,8 +26,17 @@ export class PushNotificationService {
 
   constructor() {
     if (isPlatformBrowser(this.platformId)) {
-      const app = initializeApp(environment.firebase);
-      this.messaging = getMessaging(app);
+      try {
+        if (!this.hasValidFirebaseConfig()) {
+          console.warn('Firebase web push disabled: missing runtime config.');
+          return;
+        }
+
+        const app = initializeApp(environment.firebase);
+        this.messaging = getMessaging(app);
+      } catch (error) {
+        console.warn('Firebase web push initialization skipped:', error);
+      }
     }
   }
 
@@ -115,5 +124,18 @@ export class PushNotificationService {
       next: () => console.log('Token guardado en el servidor correctamente.'),
       error: (err) => console.error('Error al guardar el token en el servidor:', err)
     });
+  }
+
+  private hasValidFirebaseConfig(): boolean {
+    const firebase = environment.firebase;
+
+    return !!(
+      firebase &&
+      firebase.apiKey &&
+      firebase.authDomain &&
+      firebase.projectId &&
+      firebase.messagingSenderId &&
+      firebase.appId
+    );
   }
 }

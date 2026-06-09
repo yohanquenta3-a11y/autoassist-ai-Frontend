@@ -1,91 +1,172 @@
-<section class="dashboard-shell">
-  <header class="hero-card">
-    <div class="hero-copy">
-      <p class="eyebrow">Panel Principal</p>
-      <h1>{{ title() }}</h1>
-      <p>{{ subtitle() }}</p>
-    </div>
+<section class="dashboard-shell sm-page-shell">
+  <section class="command-stage">
+    <article class="briefing-card">
+      <div class="briefing-top">
+        <div>
+          <p class="eyebrow">AutoAssist AI</p>
+          <h1>{{ title() }}</h1>
+          <p class="briefing-copy">{{ subtitle() }}</p>
+        </div>
 
-    <div class="hero-status">
-      @if (isSyncing()) {
-        <div class="sync-indicator">
-          <span class="mini-spinner"></span>
-          Sincronizando...
+        @if (isSyncing()) {
+          <div class="sync-indicator">
+            <span class="mini-spinner"></span>
+            Sincronizando actividad
+          </div>
+        }
+      </div>
+
+      @if (personaLabel()) {
+        <div class="persona-banner">
+          <span class="persona-chip">{{ personaLabel() }}</span>
+          <span class="persona-copy">{{ personaSummary() }}</span>
         </div>
       }
-      <div class="status-wrap">
-        <span class="status-dot"></span>
-        Operación estable
-      </div>
-    </div>
-  </header>
 
-  <section class="kpi-grid">
+      <div class="briefing-layers">
+        <div class="briefing-story">
+          <p class="story-kicker">Panorama del turno</p>
+          <p>
+            Supervisa incidentes, valida trazabilidad y mueve la operacion sin salir del
+            tablero principal. Esta vista prioriza lectura rapida y decisiones inmediatas.
+          </p>
+        </div>
+
+        <div class="highlight-stack">
+          @for (highlight of highlights(); track highlight) {
+            <span class="highlight-pill">{{ highlight }}</span>
+          }
+        </div>
+      </div>
+    </article>
+
+    <article class="mission-card">
+      <div class="mission-head">
+        <span class="mission-kicker">Estado central</span>
+        <div class="mission-badge">
+          <span class="status-dot"></span>
+          En linea
+        </div>
+      </div>
+
+      <div class="mission-copy">
+        <strong>{{ statusTitle() }}</strong>
+        <p>{{ statusSummary() }}</p>
+      </div>
+
+      <div class="mission-actions">
+        @for (action of quickActions().slice(0, 3); track action.key) {
+          <button type="button" class="mission-action" (click)="selectQuickAction(action)">
+            <span class="mission-action-icon" aria-hidden="true">
+              <lucide-icon [img]="action.icon" [size]="18"></lucide-icon>
+            </span>
+            <span>
+              <strong>{{ action.label }}</strong>
+              <small>{{ action.description }}</small>
+            </span>
+          </button>
+        }
+      </div>
+    </article>
+  </section>
+
+  <section class="signal-strip">
     @for (kpi of kpis(); track kpi.label) {
-      <article class="kpi-card">
-        <div class="kpi-top">
-          <span class="kpi-icon" aria-hidden="true">
-            <lucide-icon [img]="kpi.icon" [size]="16"></lucide-icon>
+      <article class="signal-card">
+        <div class="signal-head">
+          <span class="signal-icon" aria-hidden="true">
+            <lucide-icon [img]="kpi.icon" [size]="18"></lucide-icon>
           </span>
-          <span class="kpi-trend" [class.negative]="kpi.trend < 0">
+          <span class="signal-trend" [class.negative]="kpi.trend < 0">
             {{ kpi.trend > 0 ? '+' : '' }}{{ kpi.trend }}%
           </span>
         </div>
 
-        <p class="kpi-label">{{ kpi.label }}</p>
-        <p class="kpi-value">{{ kpi.value }}</p>
-        <p class="kpi-detail">{{ kpi.detail }}</p>
+        <div class="signal-main">
+          <strong>{{ kpi.value }}</strong>
+          <span>{{ kpi.label }}</span>
+        </div>
+
+        <p class="signal-detail">{{ kpi.detail }}</p>
       </article>
     }
   </section>
 
-  <section class="content-grid">
-    <article class="panel highlights-panel">
-      <h2>Capacidades Estratégicas</h2>
-      <ul>
-        @for (highlight of highlights(); track highlight) {
-          <li>
-            <span class="bullet">✓</span>
-            <span>{{ highlight }}</span>
-          </li>
-        }
-      </ul>
-    </article>
-
+  <section class="workspace-grid">
     <article class="panel activity-panel">
-      <h2>Actividad Reciente (Últimos 5)</h2>
+      <div class="panel-heading">
+        <div>
+          <p class="panel-kicker">Actividad operativa</p>
+          <h2>Casos recientes</h2>
+        </div>
+        <span class="panel-meta">Ultimos 5 eventos</span>
+      </div>
+
       <div class="activity-list">
         @for (inc of incidents(); track inc.id_incidente) {
           <div class="activity-item">
-            <div class="activity-meta">
+            <div class="activity-line">
               <span class="activity-status" [class]="inc.estado_incidente"></span>
-              <span class="activity-id">ID: {{ inc.id_incidente.substring(0,8) }}</span>
+              <div class="activity-copy">
+                <div class="activity-meta">
+                  <span class="activity-id">ID {{ inc.id_incidente.substring(0, 8) }}</span>
+                  <span class="activity-state">{{ inc.estado_incidente.replace('_', ' ') || 'Sin estado' }}</span>
+                </div>
+                <p class="activity-summary">{{ inc.resumen_ia || 'Sin resumen disponible' }}</p>
+              </div>
             </div>
-            <p class="activity-summary">{{ inc.resumen_ia || 'Sin resumen disponible' }}</p>
-            <div class="activity-footer">
-              <span class="activity-priority">{{ inc.prioridad_incidente }}</span>
-              <span class="activity-state">{{ inc.estado_incidente.replace('_', ' ') }}</span>
-            </div>
+            <span class="activity-priority">{{ inc.prioridad_incidente || 'Sin prioridad' }}</span>
           </div>
         } @empty {
-          <p class="empty-msg">No hay actividad reciente.</p>
+          <p class="empty-msg">No hay actividad reciente disponible.</p>
         }
       </div>
     </article>
 
-    <article class="panel actions-panel">
-      <h2>Acciones Rapidas</h2>
-      <div class="actions-grid">
+    <article class="panel navigator-panel">
+      <div class="panel-heading">
+        <div>
+          <p class="panel-kicker">Rutas utiles</p>
+          <h2>Accesos de trabajo</h2>
+        </div>
+        <span class="panel-meta">{{ quickActions().length }} disponibles</span>
+      </div>
+
+      <div class="navigator-list">
         @for (action of quickActions(); track action.key) {
-          <button type="button" class="action-button" (click)="selectQuickAction(action)">
-            <span class="action-icon" aria-hidden="true">
-              <lucide-icon [img]="action.icon" [size]="16"></lucide-icon>
+          <button type="button" class="navigator-item" (click)="selectQuickAction(action)">
+            <span class="navigator-icon" aria-hidden="true">
+              <lucide-icon [img]="action.icon" [size]="18"></lucide-icon>
             </span>
-            <span class="action-copy">
-              <span class="action-label">{{ action.label }}</span>
-              <span class="action-description">{{ action.description }}</span>
+            <span class="navigator-copy">
+              <strong>{{ action.label }}</strong>
+              <small>{{ action.description }}</small>
             </span>
           </button>
+        }
+      </div>
+    </article>
+
+    <article class="panel alerts-panel">
+      <div class="panel-heading">
+        <div>
+          <p class="panel-kicker">Alertas activas</p>
+          <h2>Focos de atencion</h2>
+        </div>
+        <span class="panel-meta">{{ alerts().length }} activas</span>
+      </div>
+
+      <div class="alerts-list">
+        @for (alert of alerts(); track alert.title) {
+          <div class="alert-item" [class.critical]="alert.level === 'high'">
+            <div class="alert-top">
+              <strong>{{ alert.title }}</strong>
+              <span>{{ alert.level }}</span>
+            </div>
+            <p>{{ alert.description }}</p>
+          </div>
+        } @empty {
+          <p class="empty-msg">No hay alertas activas por ahora.</p>
         }
       </div>
     </article>

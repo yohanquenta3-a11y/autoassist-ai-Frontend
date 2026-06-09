@@ -5,28 +5,58 @@
 
 html {
   height: 100%;
+  background:
+    radial-gradient(circle at top left, rgb(var(--sm-rgb-copper-500) / 0.1), transparent 24%),
+    radial-gradient(circle at right center, rgb(var(--sm-rgb-copper-400) / 0.08), transparent 18%),
+    linear-gradient(180deg, #fcffff, #eff8fa);
   @include mat.theme(
     (
       color: (
-        primary: mat.$azure-palette,
-        tertiary: mat.$blue-palette,
+        primary: mat.$orange-palette,
+        tertiary: mat.$cyan-palette,
       ),
-      typography: Roboto,
+      typography: 'Space Grotesk',
       density: 0,
     )
   );
 }
 
 body {
-  color-scheme: dark;
+  color-scheme: light;
   margin: 0;
   height: 100%;
-  background-color: var(--sm-color-gunmetal-950);
+  background:
+    radial-gradient(circle at top left, rgb(var(--sm-rgb-copper-500) / 0.1), transparent 24%),
+    radial-gradient(circle at right center, rgb(var(--sm-rgb-copper-400) / 0.08), transparent 18%),
+    linear-gradient(180deg, #fcffff, #eff8fa);
   color: var(--sm-color-text-main);
   font-family: var(--sm-font-family);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   @include custom-scrollbar;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+::selection {
+  background: rgb(var(--sm-rgb-copper-500) / 0.3);
+  color: var(--sm-color-text-title);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--sm-font-display);
+  letter-spacing: -0.02em;
+}
+
+a {
+  color: var(--sm-color-copper-600);
 }
 
 // Global Classes
@@ -44,32 +74,66 @@ body {
 
 // Override Angular Material global styles if needed
 .mat-mdc-card {
-  background-color: var(--sm-color-gunmetal-900) !important;
+  background:
+    linear-gradient(180deg, rgb(var(--sm-rgb-white) / 0.98), rgb(240 250 251 / 0.94)),
+    var(--sm-color-gunmetal-900) !important;
   border: 1px solid var(--sm-color-border) !important;
+  box-shadow: var(--sm-shadow-soft) !important;
+  border-radius: var(--sm-radius-md) !important;
+}
+
+.mat-drawer-backdrop.mat-drawer-shown {
+  background: rgb(15 23 42 / 0.16) !important;
+  backdrop-filter: blur(6px);
+}
+
+.mat-mdc-menu-panel,
+.mat-mdc-select-panel,
+.mat-mdc-autocomplete-panel,
+.mat-mdc-dialog-surface {
+  background:
+    linear-gradient(180deg, rgb(var(--sm-rgb-white) / 0.98), rgb(240 250 251 / 0.94)),
+    var(--sm-color-gunmetal-900) !important;
+  border: 1px solid rgb(var(--sm-rgb-copper-500) / 0.16) !important;
+  box-shadow: 0 20px 40px -24px rgb(15 23 42 / 0.18) !important;
+}
+
+.mat-mdc-table {
+  background: transparent !important;
+}
+
+.mat-mdc-row,
+.mat-mdc-header-row {
+  border-bottom-color: rgb(var(--sm-rgb-copper-500) / 0.08) !important;
+}
+
+.mat-mdc-paginator {
+  background: transparent !important;
 }
 
 // Leaflet Global Overrides para Producción (Vercel)
 .leaflet-container {
   width: 100% !important;
   min-height: 300px;
-  background-color: var(--sm-color-gunmetal-950) !important;
+  background-color: #ffffff !important;
   z-index: 1;
 }
 
 // Estilos para controles de Leaflet en modo oscuro
-.leaflet-control-zoom-in, .leaflet-control-zoom-out {
-  background-color: var(--sm-color-gunmetal-800) !important;
+.leaflet-control-zoom-in,
+.leaflet-control-zoom-out {
+  background-color: #ffffff !important;
   color: var(--sm-color-text-main) !important;
   border-color: var(--sm-color-border) !important;
 }
 
 .leaflet-bar {
   border: 1px solid var(--sm-color-border) !important;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.5) !important;
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.14) !important;
 }
 
 .leaflet-control-attribution {
-  background: rgba(15, 23, 42, 0.7) !important;
+  background: rgba(255, 255, 255, 0.9) !important;
   color: var(--sm-color-text-muted) !important;
   font-size: 0.6rem !important;
 }
@@ -82,48 +146,189 @@ body {
 
   .mat-mdc-text-field-wrapper {
     border-radius: 28px !important;
-    background: rgba(255, 255, 255, 0.02) !important;
-    border: 1px solid rgba(255, 255, 255, 0.05) !important;
-    transition: border-color 0.2s ease, box-shadow 0.2s ease !important;
+    background: rgba(255, 255, 255, 0.96) !important;
+    border: 1px solid rgba(148, 163, 184, 0.2) !important;
+    transition:
+      border-color 0.2s ease,
+      box-shadow 0.2s ease !important;
     height: 44px !important;
     display: flex;
     align-items: center;
   }
-  
+
   .mat-mdc-text-field-wrapper:hover {
-    border-color: rgba(255, 255, 255, 0.15) !important;
+    border-color: rgba(251, 146, 60, 0.28) !important;
   }
-  
+
   .mat-mdc-form-field-flex {
     padding-left: 1.25rem !important;
     padding-right: 1.25rem !important;
     align-items: center !important;
   }
-  
-  .mat-mdc-input-element, .mat-mdc-select-value {
+
+  .mat-mdc-input-element,
+  .mat-mdc-select-value {
     color: var(--sm-color-text-main) !important;
-    caret-color: var(--sm-color-sapphire-500) !important;
+    caret-color: var(--sm-color-copper-500) !important;
     font-size: 0.85rem !important;
   }
-  
+
   .mdc-notched-outline {
     display: none !important;
   }
-  
-  .mat-mdc-form-field-icon-prefix, .mat-mdc-form-field-icon-suffix, .mat-mdc-select-arrow-wrapper {
+
+  .mat-mdc-form-field-icon-prefix,
+  .mat-mdc-form-field-icon-suffix,
+  .mat-mdc-select-arrow-wrapper {
     color: var(--sm-color-text-muted) !important;
     display: flex;
     align-items: center;
   }
-  
+
   &.mat-focused {
     .mat-mdc-text-field-wrapper {
-      border-color: var(--sm-color-sapphire-500) !important;
-      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15) !important;
+      border-color: var(--sm-color-copper-500) !important;
+      box-shadow: 0 0 0 3px rgb(var(--sm-rgb-copper-500) / 0.14) !important;
     }
-    .mat-mdc-form-field-icon-prefix, .mat-mdc-form-field-icon-suffix, .mat-mdc-select-arrow-wrapper {
-      color: var(--sm-color-sapphire-500) !important;
+    .mat-mdc-form-field-icon-prefix,
+    .mat-mdc-form-field-icon-suffix,
+    .mat-mdc-select-arrow-wrapper {
+      color: var(--sm-color-copper-500) !important;
     }
   }
 }
 
+.sm-surface-panel {
+  background:
+    linear-gradient(180deg, rgb(var(--sm-rgb-white) / 0.98), rgb(240 250 251 / 0.94)),
+    var(--sm-color-gunmetal-900);
+  border: 1px solid var(--sm-color-border);
+  border-radius: var(--sm-radius-lg);
+  box-shadow: var(--sm-shadow-panel);
+  color: var(--sm-color-text-main);
+}
+
+.mat-mdc-card,
+.sm-surface-panel {
+  color: var(--sm-color-text-main);
+}
+
+.mat-mdc-card h1,
+.mat-mdc-card h2,
+.mat-mdc-card h3,
+.mat-mdc-card h4,
+.mat-mdc-card h5,
+.mat-mdc-card h6,
+.sm-surface-panel h1,
+.sm-surface-panel h2,
+.sm-surface-panel h3,
+.sm-surface-panel h4,
+.sm-surface-panel h5,
+.sm-surface-panel h6 {
+  color: var(--sm-color-text-title);
+}
+
+.mat-mdc-card p,
+.mat-mdc-card span,
+.mat-mdc-card label,
+.sm-surface-panel p,
+.sm-surface-panel span,
+.sm-surface-panel label {
+  color: inherit;
+}
+
+.mat-mdc-dialog-surface,
+.mat-mdc-menu-panel,
+.mat-mdc-select-panel,
+.mat-mdc-autocomplete-panel {
+  color: var(--sm-color-text-main) !important;
+}
+
+.mat-mdc-dialog-surface h1,
+.mat-mdc-dialog-surface h2,
+.mat-mdc-dialog-surface h3,
+.mat-mdc-dialog-surface h4,
+.mat-mdc-dialog-surface h5,
+.mat-mdc-dialog-surface h6 {
+  color: var(--sm-color-text-title) !important;
+}
+
+.sm-section-kicker {
+  color: var(--sm-color-copper-300);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.sm-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.35rem 0.75rem;
+  border-radius: 999px;
+  border: 1px solid rgb(var(--sm-rgb-copper-500) / 0.18);
+  background: rgb(var(--sm-rgb-copper-500) / 0.08);
+  color: var(--sm-color-copper-300);
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.sm-page-shell {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.sm-page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.sm-page-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+}
+
+.sm-page-grid > * {
+  min-width: 0;
+}
+
+@media (max-width: 960px) {
+  .sm-page-shell {
+    gap: 0.85rem;
+  }
+
+  .sm-page-header {
+    align-items: stretch;
+  }
+
+  .sm-page-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .mat-mdc-card {
+    border-radius: 0.9rem !important;
+  }
+
+  .mat-mdc-form-field {
+    width: 100%;
+  }
+}
+
+@media (max-width: 640px) {
+  body {
+    font-size: 15px;
+  }
+
+  .mat-mdc-button,
+  .mat-mdc-unelevated-button,
+  .mat-mdc-outlined-button,
+  .mat-mdc-raised-button {
+    min-height: 42px;
+  }
+}

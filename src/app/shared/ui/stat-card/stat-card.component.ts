@@ -43,13 +43,17 @@ import { LucideAngularModule } from 'lucide-angular';
     .stat-card {
       height: 100%;
       transition: box-shadow 0.2s ease;
-      background: rgba(255, 255, 255, 0.02) !important;
-      border: 1px solid rgba(255, 255, 255, 0.05) !important;
-      border-radius: 16px !important;
+      background:
+        radial-gradient(circle at 100% 0%, rgb(var(--sm-rgb-orange-500) / 0.12), transparent 24%),
+        linear-gradient(180deg, rgb(var(--sm-rgb-white) / 0.02), rgb(var(--sm-rgb-white) / 0.01)),
+        var(--sm-color-gunmetal-900) !important;
+      border: 1px solid rgb(var(--sm-rgb-orange-500) / 0.16) !important;
+      border-radius: 18px !important;
+      box-shadow: 0 22px 48px -38px rgb(var(--sm-rgb-black) / 0.94) !important;
     }
     .stat-card:hover {
-      box-shadow: 0 4px 20px rgb(var(--sm-rgb-black) / 0.15);
-      border-color: rgba(255, 255, 255, 0.1) !important;
+      box-shadow: 0 18px 36px -28px rgb(var(--sm-rgb-black) / 0.82);
+      border-color: rgb(var(--sm-rgb-orange-500) / 0.28) !important;
     }
     .stat-header {
       display: flex;
@@ -67,9 +71,14 @@ import { LucideAngularModule } from 'lucide-angular';
     .stat-icon {
       width: 2.5rem;
       height: 2.5rem;
-      border-radius: 10px;
-      background: rgba(99, 102, 241, 0.1);
-      color: #818cf8;
+      border-radius: 12px;
+      background: linear-gradient(
+        145deg,
+        rgb(var(--sm-rgb-orange-500) / 0.2),
+        rgb(var(--sm-rgb-orange-500) / 0.08)
+      );
+      color: var(--sm-color-orange-100);
+      border: 1px solid rgb(var(--sm-rgb-orange-500) / 0.18);
       display: flex;
       align-items: center;
       justify-content: center;

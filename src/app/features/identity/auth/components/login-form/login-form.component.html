@@ -1,58 +1,71 @@
 <div class="metal-background">
   <div class="login-card">
-    
     <div class="header-section">
-      <div class="logo-container">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="icon">
-          <path fill-rule="evenodd" d="M11.097 1.515a5.25 5.25 0 0 1 2.745 2.745l.951 2.535a.75.75 0 0 0 .546.467l2.642.44a5.25 5.25 0 0 1 3.513 3.513l.44 2.642a.75.75 0 0 0 .467.546l2.535.951a5.25 5.25 0 0 1 2.745 2.745l-.951 2.535a.75.75 0 0 0-.467.546l-2.642.44a5.25 5.25 0 0 1-3.513 3.513l-.44 2.642a.75.75 0 0 0-.546.467l-2.535.951a5.25 5.25 0 0 1-2.745 2.745l-2.535-.951a.75.75 0 0 0-.546-.467l-2.642-.44a5.25 5.25 0 0 1-3.513-3.513l-.44-2.642a.75.75 0 0 0-.467-.546l-2.535-.951a5.25 5.25 0 0 1-2.745-2.745l.951-2.535a.75.75 0 0 0 .467-.546l2.642-.44a5.25 5.25 0 0 1 3.513-3.513l.44-2.642a.75.75 0 0 0 .546-.467l2.535-.951ZM9 12a3 3 0 1 1 6 0 3 3 0 0 1-6 0Z" clip-rule="evenodd" />
-        </svg>
+      <div class="identity-row">
+        <div class="logo-container">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" class="icon">
+            <defs>
+              <linearGradient id="loginLogo" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="var(--sm-color-copper-400)" />
+                <stop offset="100%" stop-color="var(--sm-color-copper-700)" />
+              </linearGradient>
+            </defs>
+            <rect x="6" y="6" width="52" height="52" rx="16" fill="url(#loginLogo)"></rect>
+            <path d="M20 21h9l4 8 4-8h7l-7 13 8 9h-8l-4-5-4 5h-8l8-9z" fill="white"></path>
+          </svg>
+        </div>
+
+        <div class="brand-stack">
+          <p class="eyebrow">AutoAssist AI</p>
+          <span class="brand-chip">Centro operativo conectado</span>
+        </div>
       </div>
-      <h1 class="title">SMART MECHANIC</h1>
-      <p class="subtitle">Plataforma Automotriz SaaS</p>
+
+      <h1 class="title">Accede a la cabina de control de asistencia</h1>
+      <p class="subtitle">
+        Gestiona incidentes, monitoreo, trazabilidad y operacion de talleres desde una interfaz mas clara y mas propia.
+      </p>
     </div>
 
     <form [formGroup]="loginForm" (ngSubmit)="submitForm()" class="form-section">
-      
       <div class="input-group">
-        <label for="correo">Email</label>
-        <input 
-          id="correo" 
-          type="email" 
-          formControlName="correo" 
-          placeholder="tu@email.com" 
+        <label for="correo">Correo</label>
+        <input
+          id="correo"
+          type="email"
+          formControlName="correo"
+          placeholder="tu@empresa.com"
           [class.is-invalid]="loginForm.get('correo')?.invalid && loginForm.get('correo')?.touched"
         />
       </div>
 
       <div class="input-group">
-        <label for="contrasena">Contraseña</label>
-        <input 
-          id="contrasena" 
-          type="password" 
-          formControlName="contrasena" 
-          placeholder="********" 
+        <label for="contrasena">Contrasena</label>
+        <input
+          id="contrasena"
+          type="password"
+          formControlName="contrasena"
+          placeholder="********"
           [class.is-invalid]="loginForm.get('contrasena')?.invalid && loginForm.get('contrasena')?.touched"
         />
       </div>
 
       <div class="checkbox-group">
         <input type="checkbox" id="rememberMe" formControlName="rememberMe" />
-        <label for="rememberMe">Recuerda mi sesión</label>
+        <label for="rememberMe">Mantener sesion activa</label>
       </div>
 
-      <button type="submit" class="btn-primary" [disabled]="loginForm.invalid">
-        Iniciar Sesión
+      <button type="submit" class="btn-primary">
+        Entrar al centro operativo
       </button>
-
     </form>
 
     <div class="footer-links">
-      <a href="#" class="link">¿Olvidaste tu contraseña?</a>
+      <a href="#" class="link">Recuperar acceso</a>
       <div class="divider">
-        <span>¿Eres nuevo?</span>
+        <span>Nuevo en la plataforma</span>
       </div>
-      <a href="#" class="link highlight">Crear una cuenta</a>
+      <a href="#" class="link highlight">Solicitar alta</a>
     </div>
-
   </div>
 </div>

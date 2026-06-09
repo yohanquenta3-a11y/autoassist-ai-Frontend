@@ -130,6 +130,7 @@ export interface OperationalDashboardResponse {
     incidentes_por_estado: LabelValue[];
     incidentes_por_prioridad: LabelValue[];
     incidentes_por_origen: LabelValue[];
+    incidentes_por_tipo: LabelValue[];
     incidentes_por_sucursal: LabelValue[];
     incidentes_por_taller: LabelValue[];
   };

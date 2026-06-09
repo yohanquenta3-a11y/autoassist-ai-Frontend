@@ -57,6 +57,19 @@ import { AuthStore } from '@features/identity/auth/state/auth.store';
           <button mat-flat-button color="primary" (click)="incidentQuery.refetch()">Reintentar</button>
         </div>
       } @else {
+        <section class="hero-banner sm-surface-panel">
+          <div class="hero-copy">
+            <span class="sm-section-kicker">AutoAssist AI</span>
+            <h2>Contexto completo del incidente en una sola lectura.</h2>
+            <p>Consulta evidencia, verificación, seguimiento en mapa, historial y análisis sin cambiar el flujo operativo actual.</p>
+          </div>
+          <div class="hero-badges">
+            <span class="sm-pill">Mapa en vivo</span>
+            <span class="sm-pill">Evidencia centralizada</span>
+            <span class="sm-pill">Verificación segura</span>
+          </div>
+        </section>
+
         <div class="details-layout">
           <div class="main-column">
             <div class="card">
@@ -195,79 +208,149 @@ import { AuthStore } from '@features/identity/auth/state/auth.store';
     </div>
   `,
   styles: [`
-    .page-container { padding: 2rem; max-width: 1200px; margin: 0 auto; }
+    .page-container {
+      max-width: 1320px;
+      margin: 0 auto;
+      padding: 0 0 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+      animation: fadeIn 0.35s ease-out;
+    }
+
+    .hero-banner {
+      padding: 1.25rem 1.35rem;
+      border-radius: 1.5rem;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 1rem;
+      border: 1px solid rgb(var(--sm-rgb-copper-500) / 0.14);
+      background:
+        radial-gradient(circle at top right, rgb(var(--sm-rgb-copper-500) / 0.12), transparent 24%),
+        linear-gradient(180deg, rgb(var(--sm-rgb-white) / 0.02), rgb(var(--sm-rgb-white) / 0.01)),
+        var(--sm-color-gunmetal-900);
+    }
+
+    .hero-copy {
+      display: flex;
+      flex-direction: column;
+      gap: 0.55rem;
+      max-width: 54rem;
+    }
+
+    .hero-copy h2 {
+      margin: 0;
+      color: var(--sm-color-text-title);
+      font-size: clamp(1.2rem, 2vw, 1.7rem);
+      line-height: 1.1;
+    }
+
+    .hero-copy p {
+      margin: 0;
+      color: var(--sm-color-text-soft);
+      line-height: 1.5;
+      font-size: 0.92rem;
+    }
+
+    .hero-badges {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      gap: 0.55rem;
+      min-width: 12rem;
+    }
 
     .details-layout {
       display: grid;
       grid-template-columns: 1fr;
-      gap: 2rem;
+      gap: 1.25rem;
 
       @media (min-width: 1200px) {
-        grid-template-columns: 1fr 400px;
+        grid-template-columns: minmax(0, 1.18fr) minmax(320px, 400px);
       }
     }
 
     .main-column {
       display: flex;
       flex-direction: column;
-      gap: 2rem;
+      gap: 1.25rem;
     }
 
     .side-column {
       display: flex;
       flex-direction: column;
-      gap: 2rem;
+      gap: 1.25rem;
     }
 
     .card {
-      background: var(--sm-color-gunmetal-900);
-      border-radius: 12px;
-      border: 1px solid rgba(var(--sm-rgb-slate-400), 0.1);
+      background:
+        linear-gradient(180deg, rgba(14, 18, 27, 0.94) 0%, rgba(9, 12, 19, 0.96) 100%);
+      border-radius: 24px;
+      border: 1px solid rgba(255, 148, 31, 0.14);
       overflow: hidden;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.03),
+        0 22px 50px rgba(0, 0, 0, 0.28);
+      position: relative;
     }
 
-    /* Map Card Styles */
+    .card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at top right, rgba(255, 153, 0, 0.08), transparent 40%);
+      opacity: 0.95;
+    }
+
     .map-card {
       padding: 1.25rem;
       display: flex;
       flex-direction: column;
-      gap: 0.75rem;
+      gap: 1rem;
     }
 
     .map-header {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      color: var(--sm-color-sapphire-400);
-      font-size: 0.85rem;
-      font-weight: 600;
+      gap: 0.75rem;
+      color: var(--sm-color-amber-300);
+      font-size: 0.82rem;
+      font-weight: 700;
+      flex-wrap: wrap;
     }
 
     .title-section {
       display: flex;
       align-items: center;
-      gap: 0.5rem;
+      gap: 0.55rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
     }
 
     .eta-badge {
-      background: rgba(var(--sm-rgb-sapphire-400), 0.15);
-      color: var(--sm-color-sapphire-300);
-      padding: 0.25rem 0.5rem;
-      border-radius: 4px;
+      background: rgba(255, 157, 0, 0.14);
+      color: #ffd089;
+      padding: 0.4rem 0.7rem;
+      border-radius: 999px;
       font-size: 0.75rem;
       display: flex;
       align-items: center;
-      gap: 0.25rem;
-      border: 1px solid rgba(var(--sm-rgb-sapphire-400), 0.2);
+      gap: 0.35rem;
+      border: 1px solid rgba(255, 157, 0, 0.2);
+      white-space: nowrap;
     }
 
     .details-map-container {
-      height: 280px;
+      height: 300px;
       width: 100%;
-      border-radius: 8px;
-      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 18px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
       overflow: hidden;
+      background: rgba(255, 255, 255, 0.02);
     }
 
     .map-disabled-placeholder {
@@ -278,11 +361,13 @@ import { AuthStore } from '@features/identity/auth/state/auth.store';
       justify-content: center;
       padding: 2rem;
       text-align: center;
-      gap: 0.75rem;
+      gap: 0.85rem;
       color: var(--sm-color-text-soft);
-      background: rgba(255, 255, 255, 0.02);
+      background:
+        radial-gradient(circle at center, rgba(255, 149, 0, 0.08), transparent 55%),
+        rgba(255, 255, 255, 0.02);
       mat-icon { font-size: 32px; width: 32px; height: 32px; color: var(--sm-color-amber-500); }
-      p { font-size: 0.85rem; line-height: 1.4; margin: 0; max-width: 280px; }
+      p { font-size: 0.85rem; line-height: 1.5; margin: 0; max-width: 280px; }
     }
 
     .map-loading-placeholder {
@@ -299,10 +384,12 @@ import { AuthStore } from '@features/identity/auth/state/auth.store';
     }
 
     .error-state {
-      padding: 3rem;
+      padding: 2.5rem 1.4rem;
       text-align: center;
-      background: rgba(var(--sm-rgb-slate-400), 0.05);
-      border-radius: 12px;
+      background:
+        linear-gradient(180deg, rgba(20, 18, 24, 0.9), rgba(14, 13, 18, 0.96));
+      border-radius: 22px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
       mat-icon { font-size: 48px; width: 48px; height: 48px; color: var(--sm-color-crimson-500); margin-bottom: 1rem; }
       p { color: var(--sm-color-text-soft); margin-bottom: 1.5rem; }
     }
@@ -316,47 +403,48 @@ import { AuthStore } from '@features/identity/auth/state/auth.store';
       to { transform: rotate(360deg); }
     }
 
-    /* Verification Card Styles */
     .verification-card {
       padding: 1.25rem;
       display: flex;
       flex-direction: column;
       gap: 1rem;
-      margin-bottom: 2rem;
     }
 
     .card-header-premium {
       display: flex;
       align-items: center;
-      gap: 0.5rem;
-      color: var(--sm-color-sapphire-400);
-      font-size: 0.85rem;
-      font-weight: 600;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-      padding-bottom: 0.75rem;
+      gap: 0.65rem;
+      color: var(--sm-color-amber-300);
+      font-size: 0.82rem;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      padding-bottom: 0.9rem;
       mat-icon {
-        color: var(--sm-color-sapphire-400);
+        color: var(--sm-color-amber-400);
       }
     }
 
     .verification-body {
       display: flex;
       flex-direction: column;
-      gap: 0.75rem;
+      gap: 0.85rem;
     }
 
     .info-row {
       display: flex;
       justify-content: space-between;
       align-items: center;
+      gap: 0.85rem;
       font-size: 0.85rem;
       .label {
         color: var(--sm-color-text-muted);
       }
       .status-val {
         font-weight: 700;
-        padding: 0.2rem 0.5rem;
-        border-radius: 4px;
+        padding: 0.3rem 0.65rem;
+        border-radius: 999px;
         font-size: 0.75rem;
         &[data-status="VERIFICADO"] {
           background: rgba(46, 204, 113, 0.15);
@@ -378,10 +466,10 @@ import { AuthStore } from '@features/identity/auth/state/auth.store';
     }
 
     .code-row {
-      background: rgba(255, 255, 255, 0.02);
-      padding: 0.5rem 0.75rem;
-      border-radius: 6px;
-      border: 1px solid rgba(255, 255, 255, 0.05);
+      background: rgba(255, 255, 255, 0.03);
+      padding: 0.7rem 0.85rem;
+      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
     }
 
     .pin-code {
@@ -389,14 +477,14 @@ import { AuthStore } from '@features/identity/auth/state/auth.store';
       font-size: 1.1rem;
       font-weight: 800;
       letter-spacing: 2px;
-      color: var(--sm-color-sapphire-300);
+      color: #ffd089;
     }
 
     .override-section {
       margin-top: 0.5rem;
-      padding: 0.75rem;
+      padding: 0.95rem;
       background: rgba(231, 76, 60, 0.05);
-      border-radius: 8px;
+      border-radius: 16px;
       border: 1px solid rgba(231, 76, 60, 0.15);
     }
 
@@ -415,30 +503,92 @@ import { AuthStore } from '@features/identity/auth/state/auth.store';
 
     .motive-textarea {
       width: 100%;
-      height: 60px;
-      background: rgba(0, 0, 0, 0.2);
+      min-height: 88px;
+      background: rgba(0, 0, 0, 0.25);
       border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 6px;
-      padding: 0.5rem;
+      border-radius: 14px;
+      padding: 0.75rem 0.85rem;
       color: white;
-      font-size: 0.8rem;
-      resize: none;
+      font-size: 0.82rem;
+      resize: vertical;
       outline: none;
       box-sizing: border-box;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
       &:focus {
-        border-color: rgba(231, 76, 60, 0.4);
+        border-color: rgba(255, 150, 32, 0.4);
+        box-shadow: 0 0 0 3px rgba(255, 150, 32, 0.12);
       }
     }
 
     .override-btn {
       width: 100%;
-      height: 38px;
+      min-height: 42px;
       font-size: 0.78rem;
       font-weight: 700;
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 0.35rem;
+    }
+
+    @media (max-width: 959px) {
+      .page-container {
+        gap: 1rem;
+      }
+
+      .hero-banner {
+        flex-direction: column;
+      }
+
+      .hero-badges {
+        justify-content: flex-start;
+      }
+
+      .details-layout,
+      .main-column,
+      .side-column {
+        gap: 1rem;
+      }
+
+      .details-map-container {
+        height: 260px;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .page-container {
+        padding-bottom: 1.5rem;
+      }
+
+      .card,
+      .verification-card,
+      .map-card {
+        border-radius: 20px;
+      }
+
+      .map-header,
+      .info-row {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .code-row {
+        gap: 0.55rem;
+      }
+
+      .pin-code {
+        font-size: 1rem;
+        letter-spacing: 1.4px;
+      }
+
+      .details-map-container {
+        height: 220px;
+      }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
     }
   `]
 })
