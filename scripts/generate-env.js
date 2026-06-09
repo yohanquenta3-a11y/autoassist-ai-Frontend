@@ -14,8 +14,8 @@ if (fs.existsSync(envPath)) {
 }
 
 const envConfig = {
-  apiUrl: process.env.API_URL || 'http://localhost:8000/api/v1',
-  aiReportUrl: process.env.AI_REPORT_URL || '/ai-report',
+  apiUrl: process.env.API_URL || 'https://autoassist-ai-backend-1.onrender.com/api/v1',
+  aiReportUrl: process.env.AI_REPORT_URL || 'https://autoassist-ai-backend-1.onrender.com/ai-report',
   firebase: {
     apiKey: process.env.FIREBASE_API_KEY || '',
     authDomain: process.env.FIREBASE_AUTH_DOMAIN || '',
