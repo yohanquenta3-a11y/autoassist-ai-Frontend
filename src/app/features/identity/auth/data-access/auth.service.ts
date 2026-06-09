@@ -13,37 +13,20 @@ export class AuthService {
   private storageService = inject(StorageService);
   private readonly API_URL = `${environment.apiUrl}/identity/auth`;
 
-  /**
-   * Realiza la petición de login al backend.
-   * El backend espera:
-   * {
-   *   correo: string,
-   *   contrasena: string
-   * }
-   */
-  login(credentials: LoginCredentials): Observable<AuthResponse> {
+  login(credentials: LoginCredentials & { rememberMe?: boolean }): Observable<AuthResponse> {
     const payload = {
-      correo: credentials.correo,
-      contrasena:
-        (credentials as any).contrasena ??
-        (credentials as any).password ??
-        ''
+      correo: String(credentials.correo).trim(),
+      contrasena: String(credentials.contrasena).trim()
     };
 
     return this.http.post<AuthResponse>(`${this.API_URL}/login`, payload);
   }
 
-  /**
-   * Cierra sesión localmente.
-   */
   logout(): void {
     this.storageService.removeItem('access_token');
     this.storageService.removeItem('user_data');
   }
 
-  /**
-   * Guarda el token y datos de usuario en StorageService.
-   */
   saveAuthData(response: AuthResponse): void {
     this.storageService.setItem('access_token', response.access_token);
     this.storageService.setItem('user_data', JSON.stringify(response.user));
