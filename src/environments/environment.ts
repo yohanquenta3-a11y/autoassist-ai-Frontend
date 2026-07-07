@@ -22,7 +22,7 @@ const runtimeEnv = (typeof window !== "undefined" && window.__env) ? window.__en
 export const environment = {
   production: true,
   apiUrl: runtimeEnv.apiUrl || "https://autoassist-ai-backend-1.onrender.com/api/v1",
-  aiReportUrl: runtimeEnv.aiReportUrl || "https://autoassist-ai-backend-1.onrender.com/ai-report",
+  aiReportUrl: runtimeEnv.aiReportUrl || "https://assistcar.app.n8n.cloud/webhook/chat",
   firebase: runtimeEnv.firebase || {
     apiKey: "AIzaSyDUYtfJfmsVk-cFhZh6CyqebSOV2wEb73s",
     authDomain: "autoassist-ai-b21e2.firebaseapp.com",

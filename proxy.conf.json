@@ -6,7 +6,7 @@
     "logLevel": "debug"
   },
   "/ai-report": {
-    "target": "https://autoassistai.app.n8n.cloud",
+    "target": "https://assistcar.app.n8n.cloud",
     "secure": true,
     "changeOrigin": true,
     "pathRewrite": {

@@ -1,7 +1,7 @@
 (function (global) {
   global.__env = {
     "apiUrl": "https://autoassist-ai-backend-1.onrender.com/api/v1",
-    "aiReportUrl": "https://autoassist-ai-backend-1.onrender.com/ai-report",
+    "aiReportUrl": "https://assistcar.app.n8n.cloud/webhook/chat",
     "firebase": {
       "apiKey": "AIzaSyDUYtfJfmsVk-cFhZh6CyqebSOV2wEb73s",
       "authDomain": "autoassist-ai-b21e2.firebaseapp.com",
