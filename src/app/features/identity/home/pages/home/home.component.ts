@@ -11,6 +11,7 @@ import {
   Radar,
   ReceiptText,
   Siren,
+  Truck,
   Users,
   Wallet,
 } from 'lucide-angular';
@@ -253,6 +254,13 @@ export class HomeComponent {
           route: '/workshops/assignments',
         },
         {
+          key: 'transfers',
+          label: 'Traslados',
+          icon: Truck,
+          description: 'Gestionar fletes y traslados preventivos.',
+          route: '/transfers',
+        },
+        {
           key: 'monitor',
           label: 'Monitor local',
           icon: Radar,
@@ -269,6 +277,13 @@ export class HomeComponent {
         icon: ClipboardList,
         description: 'Ir al tablero Kanban de incidentes.',
         route: '/workshops/assignments',
+      },
+      {
+        key: 'transfers',
+        label: 'Traslados',
+        icon: Truck,
+        description: 'Gestionar fletes y traslados preventivos.',
+        route: '/transfers',
       },
       {
         key: 'quotations',

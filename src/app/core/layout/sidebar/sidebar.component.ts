@@ -381,6 +381,7 @@ export class SidebarComponent {
     icon: Wrench,
     children: [
       { label: 'Visualizar solicitudes', path: '/workshops/assignments' },
+      { label: 'Gestionar traslados', path: '/transfers' },
       { label: 'Gestionar tecnicos y disponibilidad', path: '/workshops/team' },
       { label: 'Gestionar Citas', path: '/workshops/calendar' },
     ],

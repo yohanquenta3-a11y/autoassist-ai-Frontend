@@ -138,7 +138,9 @@ export class DashboardLayoutComponent {
     }, { allowSignalWrites: true });
 
     if (!this.authStore.isAuthenticated()) {
-      this.router.navigate(['/identity/auth']);
+      this.router.navigate(['/identity/auth'], {
+        queryParams: { returnUrl: this.router.url },
+      });
     }
   }
 

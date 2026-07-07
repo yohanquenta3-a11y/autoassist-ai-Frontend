@@ -36,6 +36,10 @@ export const routes: Routes = [
     loadChildren: () => import('./features/quotations').then(m => m.quotationsRoutes)
   },
   {
+    path: 'transfers',
+    loadChildren: () => import('./features/transfers').then(m => m.transfersRoutes)
+  },
+  {
     path: 'admin',
     loadChildren: () => import('./features/admin').then(m => m.adminRoutes)
   },

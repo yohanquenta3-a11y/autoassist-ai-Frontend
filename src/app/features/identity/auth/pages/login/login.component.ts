@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AuthStore } from '../../state/auth.store';
 import { LoginFormComponent, LoginCredentials } from '../../components/login-form/login-form.component';
 import { AuthService } from '../../data-access/auth.service';
@@ -181,6 +181,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 export class LoginComponent {
   public authStore = inject(AuthStore);
   private router = inject(Router);
+  private route = inject(ActivatedRoute);
   private authService = inject(AuthService);
   private snackBar = inject(MatSnackBar);
 
@@ -189,7 +190,8 @@ export class LoginComponent {
     onSuccess: (response) => {
       this.authService.saveAuthData(response);
       this.authStore.loginSuccess(response.user, response.access_token);
-      this.router.navigate(['/identity/home']);
+      const returnUrl = this.route.snapshot.queryParamMap.get('returnUrl');
+      this.router.navigateByUrl(returnUrl || '/identity/home');
     },
     onError: (error: HttpErrorResponse) => {
       const message = error.error?.detail || 'Error al iniciar sesión. Verifica tus credenciales.';
@@ -201,7 +203,8 @@ export class LoginComponent {
     this.authStore.init();
 
     if (this.authStore.isAuthenticated()) {
-      this.router.navigate(['/identity/home']);
+      const returnUrl = this.route.snapshot.queryParamMap.get('returnUrl');
+      this.router.navigateByUrl(returnUrl || '/identity/home');
     }
   }
 
